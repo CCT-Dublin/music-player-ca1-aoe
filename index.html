@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winamp Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="winamp">
+        <!-- Winamp Header -->
+        <div id="header">
+            <span id="winamp-title">WINAMP</span>
+        </div>
+
+        <!-- Display Screen -->
+        <div id="display">
+            <span id="song-title">No Song Playing</span>
+            <div id="song-time">00:00 / 00:00</div>
+        </div>
+
+        <!-- Controls -->
+        <div id="controls">
+            <button id="prev" class="control-btn"></button>
+            <button id="play" class="control-btn"></button>
+            <button id="pause" class="control-btn"></button>
+            <button id="stop" class="control-btn"></button>
+            <button id="next" class="control-btn"></button>
+        </div>
+
+        <!-- Playlist -->
+        <div id="playlist">
+            <ul>
+                <li data-src="song1.mp3">Song 1</li>
+                <li data-src="song2.mp3">Song 2</li>
+                <li data-src="song3.mp3">Song 3</li>
+            </ul>
+        </div>
+
+        <!-- Equalizer (Animated Visual Effect) -->
+        <div id="equalizer">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
+    </div>
+
+    <audio id="audio"></audio>
+    <script src="script.js"></script>
+</body>
+</html>

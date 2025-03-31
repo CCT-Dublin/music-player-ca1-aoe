@@ -1,0 +1,113 @@
+/* General Body */
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Winamp Main Box */
+#winamp {
+    width: 350px;
+    background: linear-gradient(to bottom, #555, #222);
+    border: 3px solid #000;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* Header */
+#header {
+    font-size: 14px;
+    background: black;
+    color: yellow;
+    padding: 5px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Display Screen */
+#display {
+    background: black;
+    color: lime;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid gray;
+    margin-bottom: 10px;
+}
+
+/* Controls */
+#controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* Control Buttons */
+.control-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-size: contain;
+    cursor: pointer;
+}
+
+#prev { background-image: url('icons/prev.png'); }
+#play { background-image: url('icons/play.png'); }
+#pause { background-image: url('icons/pause.png'); }
+#stop { background-image: url('icons/stop.png'); }
+#next { background-image: url('icons/next.png'); }
+
+.control-btn:hover {
+    filter: brightness(1.2);
+}
+
+/* Playlist */
+#playlist {
+    background: black;
+    color: white;
+    border: 1px solid gray;
+    padding: 5px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+#playlist ul {
+    list-style: none;
+    padding: 0;
+}
+
+#playlist li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#playlist li:hover {
+    background: gray;
+}
+
+/* Equalizer */
+#equalizer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    padding: 5px;
+    background: black;
+}
+
+.eq-bar {
+    width: 5px;
+    height: 30px;
+    background: yellow;
+    margin: 0 5px;
+    animation: bounce 1s infinite alternate ease-in-out;
+}
+
+/* Equalizer Animation */
+@keyframes bounce {
+    from { height: 10px; }
+    to { height: 30px; }
+}
