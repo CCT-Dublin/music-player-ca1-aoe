@@ -67,26 +67,64 @@ body {
 
 /* Control Buttons */
 .control-btn {
-    background: none;
+    width: 50px;
+    height: 50px;
     border: none;
+    background-color: transparent;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
 }
+
 .control-btn img {
-    width: 40px;
-    height: 40px;
-    transition: transform 0.2s;
+    width: 30px; /* Adjust image size */
+    height: 30px;
 }
-.control-btn:hover img {
-    transform: scale(1.1);
+
+/* Control Buttons Hover Effect */
+.control-btn:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    filter: brightness(1.2);
+}
+
+/* Add padding between buttons */
+#controls button {
+    margin: 0 5px;
 }
 
 /* Seek & Volume Controls */
 #seek-volume-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 10px 0;
+    padding: 0 5px;
 }
+
+.control-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-icon img {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+    margin-right: 10px; /* Space between icon and slider */
+}
+
+/* Seek Bar and Volume Control Slider */
 #seek-bar, #volume-bar {
-    width: 100%;
+    width: 70%;
     margin: 5px 0;
+}
+
+/* Optional: Adjust volume control to make it more prominent */
+#volume-bar {
+    background-color: #444;
 }
 
 /* Playlist */
