@@ -12,6 +12,7 @@
         <!-- Winamp Header -->
         <header id="header">
             <h1 id="winamp-title">WINAMP</h1>
+            <button id="theme-toggle">🌙/☀️</button>
         </header>
 
         <!-- Display Screen -->
@@ -22,11 +23,17 @@
 
         <!-- Controls -->
         <section id="controls">
-            <button id="prev" class="control-btn" aria-label="Previous Song">⏮</button>
-            <button id="play" class="control-btn" aria-label="Play">▶</button>
-            <button id="pause" class="control-btn" aria-label="Pause">⏸</button>
-            <button id="stop" class="control-btn" aria-label="Stop">⏹</button>
-            <button id="next" class="control-btn" aria-label="Next Song">⏭</button>
+            <button id="prev" class="control-btn"><img src="icons/prev.png" alt="Previous"></button>
+            <button id="play" class="control-btn"><img src="icons/play.png" alt="Play"></button>
+            <button id="pause" class="control-btn"><img src="icons/pause.png" alt="Pause"></button>
+            <button id="stop" class="control-btn"><img src="icons/stop.png" alt="Stop"></button>
+            <button id="next" class="control-btn"><img src="icons/next.png" alt="Next"></button>
+        </section>
+
+        <!-- Seek & Volume Controls -->
+        <section id="seek-volume-controls">
+            <input type="range" id="seek-bar" min="0" value="0">
+            <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="0.5">
         </section>
 
         <!-- Playlist -->
@@ -38,7 +45,7 @@
             </ul>
         </section>
 
-        <!-- Equalizer (Animated Visual Effect) -->
+        <!-- Equalizer -->
         <section id="equalizer">
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
@@ -52,8 +59,6 @@
     </div>
 
     <audio id="audio"></audio>
-    
-    <!-- Load script at the end for performance -->
     <script src="script.js"></script>
 </body>
 </html>
