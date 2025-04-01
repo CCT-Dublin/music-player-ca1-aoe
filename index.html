@@ -8,37 +8,38 @@
 </head>
 <body>
     <div id="winamp">
+        
         <!-- Winamp Header -->
-        <div id="header">
-            <span id="winamp-title">WINAMP</span>
-        </div>
+        <header id="header">
+            <h1 id="winamp-title">WINAMP</h1>
+        </header>
 
         <!-- Display Screen -->
-        <div id="display">
+        <section id="display">
             <span id="song-title">No Song Playing</span>
             <div id="song-time">00:00 / 00:00</div>
-        </div>
+        </section>
 
         <!-- Controls -->
-        <div id="controls">
-            <button id="prev" class="control-btn"></button>
-            <button id="play" class="control-btn"></button>
-            <button id="pause" class="control-btn"></button>
-            <button id="stop" class="control-btn"></button>
-            <button id="next" class="control-btn"></button>
-        </div>
+        <section id="controls">
+            <button id="prev" class="control-btn" aria-label="Previous Song">⏮</button>
+            <button id="play" class="control-btn" aria-label="Play">▶</button>
+            <button id="pause" class="control-btn" aria-label="Pause">⏸</button>
+            <button id="stop" class="control-btn" aria-label="Stop">⏹</button>
+            <button id="next" class="control-btn" aria-label="Next Song">⏭</button>
+        </section>
 
         <!-- Playlist -->
-        <div id="playlist">
+        <section id="playlist">
             <ul>
-                <li data-src="song1.mp3">Song 1</li>
-                <li data-src="song2.mp3">Song 2</li>
-                <li data-src="song3.mp3">Song 3</li>
+                <li><button class="playlist-item" data-src="song1.mp3">🎵 Song 1</button></li>
+                <li><button class="playlist-item" data-src="song2.mp3">🎵 Song 2</button></li>
+                <li><button class="playlist-item" data-src="song3.mp3">🎵 Song 3</button></li>
             </ul>
-        </div>
+        </section>
 
         <!-- Equalizer (Animated Visual Effect) -->
-        <div id="equalizer">
+        <section id="equalizer">
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
@@ -47,10 +48,12 @@
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
-        </div>
+        </section>
     </div>
 
     <audio id="audio"></audio>
+    
+    <!-- Load script at the end for performance -->
     <script src="script.js"></script>
 </body>
 </html>

@@ -13,10 +13,11 @@ body {
     width: 350px;
     background: linear-gradient(to bottom, #555, #222);
     border: 3px solid #000;
-    padding: 10px;
+    padding: 12px;
     color: white;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 0, 0.2);
 }
 
 /* Header */
@@ -24,19 +25,22 @@ body {
     font-size: 14px;
     background: black;
     color: yellow;
-    padding: 5px;
+    padding: 6px;
     text-align: left;
     font-weight: bold;
+    border-radius: 3px;
 }
 
 /* Display Screen */
 #display {
     background: black;
     color: lime;
-    padding: 10px;
+    padding: 12px;
     font-size: 14px;
     border: 2px solid gray;
     margin-bottom: 10px;
+    border-radius: 5px;
+    text-shadow: 0 0 8px lime;
 }
 
 /* Controls */
@@ -48,11 +52,14 @@ body {
 
 /* Control Buttons */
 .control-btn {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border: none;
     background-size: contain;
     cursor: pointer;
+    background-color: rgba(255, 255, 0, 0.2);
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
 }
 
 #prev { background-image: url('icons/prev.png'); }
@@ -62,7 +69,8 @@ body {
 #next { background-image: url('icons/next.png'); }
 
 .control-btn:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.5);
+    background-color: rgba(255, 255, 0, 0.5);
 }
 
 /* Playlist */
@@ -70,9 +78,24 @@ body {
     background: black;
     color: white;
     border: 1px solid gray;
-    padding: 5px;
+    padding: 8px;
     margin-top: 10px;
     text-align: left;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 5px;
+}
+
+/* Scrollbar */
+#playlist::-webkit-scrollbar {
+    width: 6px;
+}
+#playlist::-webkit-scrollbar-track {
+    background: #333;
+}
+#playlist::-webkit-scrollbar-thumb {
+    background: yellow;
+    border-radius: 3px;
 }
 
 #playlist ul {
@@ -81,33 +104,49 @@ body {
 }
 
 #playlist li {
-    padding: 5px;
+    padding: 6px;
     cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 3px;
 }
 
 #playlist li:hover {
-    background: gray;
+    background: rgba(255, 255, 0, 0.5);
+    color: black;
+    font-weight: bold;
 }
 
 /* Equalizer */
 #equalizer {
     display: flex;
     justify-content: space-around;
-    margin-top: 10px;
-    padding: 5px;
+    margin-top: 12px;
+    padding: 6px;
     background: black;
+    border-radius: 5px;
 }
 
+/* Equalizer Bars */
 .eq-bar {
-    width: 5px;
-    height: 30px;
+    width: 6px;
+    height: 15px;
     background: yellow;
     margin: 0 5px;
-    animation: bounce 1s infinite alternate ease-in-out;
+    border-radius: 3px;
+    animation: equalizer 1.2s infinite alternate ease-in-out;
+    animation-play-state: paused;
 }
 
 /* Equalizer Animation */
-@keyframes bounce {
-    from { height: 10px; }
-    to { height: 30px; }
+@keyframes equalizer {
+    0% { height: 10px; }
+    50% { height: 30px; }
+    100% { height: 15px; }
+}
+
+/* Responsive Fix for Smaller Screens */
+@media (max-width: 400px) {
+    #winamp {
+        width: 95%;
+    }
 }
