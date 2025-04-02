@@ -76,23 +76,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
 }
 
 .control-btn img {
-    width: 30px; /* Adjust image size */
-    height: 30px;
-}
-
-/* Control Buttons Hover Effect */
-.control-btn:hover {
-    background-color: rgba(255, 255, 0, 0.3);
-    filter: brightness(1.2);
-}
-
-/* Add padding between buttons */
-#controls button {
-    margin: 0 5px;
+    width: 35px; /* Updated image size */
+    height: 35px;
 }
 
 /* Seek & Volume Controls */
@@ -104,61 +92,33 @@ body {
     padding: 0 5px;
 }
 
-.control-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .control-icon img {
-    width: 20px; /* Adjust icon size */
-    height: 20px;
-    margin-right: 10px; /* Space between icon and slider */
+    width: 25px; /* Adjusted size */
+    height: 25px;
+}
+/* Adjust Button Styles */
+.control-btn {
+    font-size: 24px; /* Make icons bigger */
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Seek Bar and Volume Control Slider */
-#seek-bar, #volume-bar {
-    width: 70%;
-    margin: 5px 0;
-}
-
-/* Optional: Adjust volume control to make it more prominent */
-#volume-bar {
-    background-color: #444;
-}
-
-/* Playlist */
-#playlist {
-    background: black;
-    border: 1px solid gray;
-    padding: 8px;
-    text-align: left;
-    max-height: 150px;
-    overflow-y: auto;
+/* Button Hover Effect */
+.control-btn:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    filter: brightness(1.2);
     border-radius: 5px;
 }
-#playlist li:hover {
-    background: var(--highlight-color);
-}
 
-/* Equalizer */
-#equalizer {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 12px;
-    padding: 6px;
-}
-.eq-bar {
-    width: 6px;
-    height: 15px;
-    background: yellow;
-    border-radius: 3px;
-    animation: equalizer 1.2s infinite alternate ease-in-out;
-    animation-play-state: paused;
-}
-
-@media (max-width: 500px) {
-    #winamp {
-        width: 90%;
-    }
+/* Seek & Volume Icons */
+.control-icon {
+    font-size: 20px;
+    padding: 0 10px;
 }
