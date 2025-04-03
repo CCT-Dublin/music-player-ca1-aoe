@@ -9,6 +9,50 @@ const seekBar = document.getElementById("seek-bar");
 const volumeBar = document.getElementById("volume-bar");
 const themeToggle = document.getElementById("theme-toggle");
 const playlistItems = document.querySelectorAll("#playlist .playlist-item");
+const eqBars = document.querySelectorAll(".eq-bar");
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioContext.createAnalyser();
+const source = audioContext.createMediaElementSource(audio);
+source.connect(analyser);
+analyser.connect(audioContext.destination);
+analyser.fftSize = 32; // Controls the equalizer sensitivity
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+
+function startEqualizer() {
+    if (audioContext.state === "suspended") {
+        audioContext.resume(); // Resume audio context if needed
+    }
+
+    function animateEqualizer() {
+        analyser.getByteFrequencyData(dataArray);
+        eqBars.forEach((bar, index) => {
+            let value = dataArray[index] / 2; // Adjust intensity
+            bar.style.height = `${Math.max(value, 5)}px`; // Ensure a minimum height
+        });
+
+        if (!audio.paused) {
+            requestAnimationFrame(animateEqualizer);
+        } else {
+            stopEqualizer();
+        }
+    }
+
+    animateEqualizer();
+}
+
+function stopEqualizer() {
+    eqBars.forEach(bar => {
+        bar.style.height = "10px"; // Reset bars when music stops
+    });
+}
+
+function playSong() {
+    if (!audio.src) loadSong();
+    audio.play();
+    startEqualizer();
+}
+
 
 let currentSongIndex = 0;
 const songs = Array.from(playlistItems).map(item => item.dataset.src);

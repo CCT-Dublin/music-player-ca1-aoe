@@ -122,3 +122,22 @@ body {
     font-size: 20px;
     padding: 0 10px;
 }
+/* Equalizer */
+#equalizer {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 100%;
+    height: 80px; /* Increase height */
+    background: black;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.eq-bar {
+    width: 8px; /* Wider bars */
+    height: 10px;
+    background: yellow;
+    border-radius: 3px;
+    transition: height 0.1s ease-in-out;
+}
