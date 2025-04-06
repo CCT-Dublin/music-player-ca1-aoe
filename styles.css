@@ -8,7 +8,7 @@ body {
 }
 
 .player-container {
-    /* -webkit-app-region: drag; */
+    -webkit-app-region: drag;
     background-color: #030303;
     width: 320px;
     padding: 20px;
