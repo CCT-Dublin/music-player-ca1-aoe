@@ -56,6 +56,7 @@ function loadSong(index = currentSongIndex) {
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
     songTitle.textContent = songs[currentSongIndex].split('/').pop();
+    loadLyricsForSong(songs[currentSongIndex]); 
 }
 
 function playSong() {
@@ -131,3 +132,17 @@ pauseButton.addEventListener("click", pauseSong);
 stopButton.addEventListener("click", stopSong);
 prevButton.addEventListener("click", prevSong);
 nextButton.addEventListener("click", nextSong);
+
+const lyricsDisplay = document.getElementById("lyrics");
+
+function loadLyricsForSong(songName) {
+    // Dummy lyrics for now
+    const lyricsMap = {
+        "song1.mp3": `🎶 These are the lyrics\nLine by line\nEnjoy the time`,
+        "song2.mp3": `🔥 Another song\nFeel the beat\nMove your feet`,
+        "song3.mp3": `✨ Calm and slow\nMelodies flow\nLet it grow`
+    };
+
+    const lyrics = lyricsMap[songName] || "No lyrics available.";
+    lyricsDisplay.textContent = lyrics;
+}
