@@ -1,29 +1,31 @@
 /* General Body */
 body {
-    background-color: var(--bg-color);
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: Arial, sans-serif;
-    color: var(--text-color);
+}
+
+.player-container {
+    /* -webkit-app-region: drag; */
+    background-color: #030303;
+    width: 320px;
+    padding: 20px;
+    border-radius: 20px;
+    color: #ffffff;
+    box-shadow: 0 0 50px rgba(0,0,0,0.3);
 }
 
 /* Theme Variables */
-:root {
+/* :root {
     --bg-color: black;
     --text-color: white;
     --highlight-color: yellow;
-}
-
-.light-mode {
-    --bg-color: white;
-    --text-color: black;
-    --highlight-color: blue;
-}
+} */
 
 /* Winamp Box */
-#winamp {
+/* #winamp {
     width: 350px;
     background: linear-gradient(to bottom, #555, #222);
     border: 3px solid #000;
@@ -31,7 +33,7 @@ body {
     text-align: center;
     border-radius: 8px;
     box-shadow: 0px 4px 15px rgba(255, 255, 0, 0.2);
-}
+} */
 
 /* Header */
 #header {
@@ -61,30 +63,29 @@ body {
 /* Controls */
 #controls {
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    justify-content: space-around;
+    margin: 25px 0;
 }
 
 /* Control Buttons */
 .control-btn {
-    width: 50px;
-    height: 50px;
+    -webkit-app-region: no-drag; /*no drag this part*/
+    background: none;
     border: none;
-    background-color: transparent;
+    margin-top: 20px;
+    color: #fff;
+    font-size: 1.9rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.control-btn img {
-    width: 35px; /* Updated image size */
+/* .control-btn img {
+    width: 35px;
     height: 35px;
-}
+} */
 
 /* Seek & Volume Controls */
 #seek-volume-controls {
+    -webkit-app-region: no-drag; /*no drag this part*/
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -136,11 +137,12 @@ body {
 
 .eq-bar {
     width: 8px; /* Wider bars */
-    height: 10px;
+    height: 6px;
     background: yellow;
     border-radius: 3px;
     transition: height 0.1s ease-in-out;
 }
+
 #lyrics-display {
     background-color: rgba(0, 0, 0, 0.7);
     border: 1px solid gray;
@@ -153,3 +155,33 @@ body {
     font-family: monospace;
     font-size: 12px;
 }
+
+.window-controls {
+    /* -webkit-app-region: no-drag; */
+    display: flex;
+    gap: 7px;
+    padding: 10px;
+    
+  }
+
+.window-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+
+.window-button.red {
+    background-color: #ff5f56;
+  }
+  
+  .window-button.yellow {
+    background-color: #ffbd2e;
+  }
+  
+  .window-button.green {
+    background-color: #27c93f;
+  }
+  

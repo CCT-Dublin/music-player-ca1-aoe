@@ -2,14 +2,20 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
+let win;
+
 const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+  win = new BrowserWindow({
+    width: 400,
+    height: 720,
+    frame: false,
+    resizable: true,
+    transparent: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: false
+      preload: path.join(__dirname, 'preload.js'), // Use preload script for security
+      nodeIntegration: true,  // Needed for require in renderer (security risk for production)
+      contextIsolation: true // Allows access to Node.js APIs directly in renderer !!!! HERE IS THE PROBLEM! 
+      // When the contextIsolation is true, we can play the music, but we can not use the require function in the renderer process (windows control buttons).
     }
   });
 
@@ -25,4 +31,25 @@ ipcMain.handle('get-songs', async () => {
 
 app.whenReady().then(() => {
   createWindow();
+});
+
+// Handle custom window control events
+ipcMain.on('window-control', (event, action) => {
+  if (!win) return;
+
+  switch (action) {
+    case 'close':
+      win.close();
+      break;
+    case 'minimize':
+      win.minimize();
+      break;
+    case 'maximize':
+      if (win.isMaximized()) {
+        win.restore();
+      } else {
+        win.maximize();
+      }
+      break;
+  }
 });
