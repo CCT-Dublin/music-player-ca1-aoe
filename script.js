@@ -1,4 +1,4 @@
-const audio = document.getElementById("audio"); 
+const audio = document.getElementById("audio");
 const playButton = document.getElementById("play");
 const pauseButton = document.getElementById("pause");
 const prevButton = document.getElementById("prev");
@@ -8,27 +8,31 @@ const songTitle = document.getElementById("song-title");
 const seekBar = document.getElementById("seek-bar");
 const volumeBar = document.getElementById("volume-bar");
 const themeToggle = document.getElementById("theme-toggle");
-const playlistItems = document.querySelectorAll("#playlist .playlist-item");
 const eqBars = document.querySelectorAll(".eq-bar");
+const playlistEl = document.querySelector("#playlist ul");
+
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioContext.createAnalyser();
 const source = audioContext.createMediaElementSource(audio);
 source.connect(analyser);
 analyser.connect(audioContext.destination);
-analyser.fftSize = 32; // Controls the equalizer sensitivity
+analyser.fftSize = 32;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
+let songs = [];
+let currentSongIndex = 0;
+
 function startEqualizer() {
     if (audioContext.state === "suspended") {
-        audioContext.resume(); // Resume audio context if needed
+        audioContext.resume();
     }
 
     function animateEqualizer() {
         analyser.getByteFrequencyData(dataArray);
         eqBars.forEach((bar, index) => {
-            let value = dataArray[index] / 2; // Adjust intensity
-            bar.style.height = `${Math.max(value, 5)}px`; // Ensure a minimum height
+            let value = dataArray[index] / 2;
+            bar.style.height = `${Math.max(value, 5)}px`;
         });
 
         if (!audio.paused) {
@@ -43,30 +47,21 @@ function startEqualizer() {
 
 function stopEqualizer() {
     eqBars.forEach(bar => {
-        bar.style.height = "10px"; // Reset bars when music stops
+        bar.style.height = "10px";
     });
+}
+
+function loadSong(index = currentSongIndex) {
+    if (!songs.length) return;
+    currentSongIndex = index;
+    audio.src = songs[currentSongIndex];
+    songTitle.textContent = songs[currentSongIndex].split('/').pop();
 }
 
 function playSong() {
     if (!audio.src) loadSong();
     audio.play();
     startEqualizer();
-}
-
-
-let currentSongIndex = 0;
-const songs = Array.from(playlistItems).map(item => item.dataset.src);
-
-function loadSong(index = currentSongIndex) {
-    if (!songs.length) return;
-    currentSongIndex = index;
-    audio.src = songs[currentSongIndex];
-    songTitle.textContent = playlistItems[currentSongIndex].textContent.trim();
-}
-
-function playSong() {
-    if (!audio.src) loadSong();
-    audio.play();
 }
 
 function pauseSong() {
@@ -76,6 +71,7 @@ function pauseSong() {
 function stopSong() {
     audio.pause();
     audio.currentTime = 0;
+    stopEqualizer();
 }
 
 function prevSong() {
@@ -95,15 +91,43 @@ audio.addEventListener("timeupdate", () => {
     seekBar.value = audio.currentTime;
 });
 
+seekBar.addEventListener("input", () => {
+    audio.currentTime = seekBar.value;
+});
+
+volumeBar.addEventListener("input", () => {
+    audio.volume = volumeBar.value;
+});
+
 themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("light-mode");
 });
 
-playlistItems.forEach((item, index) => {
-    item.addEventListener("click", () => {
-        loadSong(index);
-        playSong();
+// 🎵 Load songs dynamically from music folder
+window.musicAPI.getSongs().then(fileList => {
+    songs = fileList.map(name => `music/${name}`);
+    playlistEl.innerHTML = "";
+
+    songs.forEach((src, index) => {
+        const li = document.createElement("li");
+        const button = document.createElement("button");
+        button.classList.add("playlist-item");
+        button.dataset.src = src;
+        button.textContent = `🎵 ${src.split('/').pop()}`;
+        button.addEventListener("click", () => {
+            loadSong(index);
+            playSong();
+        });
+        li.appendChild(button);
+        playlistEl.appendChild(li);
     });
+
+    loadSong(); // Load first song
 });
 
-loadSong();
+// 🎧 Button events
+playButton.addEventListener("click", playSong);
+pauseButton.addEventListener("click", pauseSong);
+stopButton.addEventListener("click", stopSong);
+prevButton.addEventListener("click", prevSong);
+nextButton.addEventListener("click", nextSong);
