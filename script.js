@@ -89,9 +89,24 @@ function nextSong() {
 }
 
 audio.addEventListener("timeupdate", () => {
+    // Update the seek bar
     seekBar.max = audio.duration;
     seekBar.value = audio.currentTime;
+
+    // Format and update the current time and duration display
+    const currentTime = formatTime(audio.currentTime);
+    const duration = formatTime(audio.duration);
+
+    document.getElementById("song-time").textContent = `${currentTime} / ${duration}`;
 });
+
+// Format the time in minutes:seconds (MM:SS)
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
 
 seekBar.addEventListener("input", () => {
     audio.currentTime = seekBar.value;
