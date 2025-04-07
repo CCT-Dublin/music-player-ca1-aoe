@@ -11,7 +11,8 @@ body {
 }
 .player-container {
     -webkit-app-region: drag;
-    background-color: #030303;
+    /* background-color: #030303; */
+    background-image: linear-gradient(to bottom right, rgb(37, 57, 238), rgb(206, 30, 177));
     width: 320px;
     padding: 20px;
     border-radius: 20px;
@@ -40,8 +41,8 @@ body {
 /* Header */
 #header {
     font-size: 14px;
-    background: black;
-    color: yellow;
+    /* background: black; */
+    /* color: yellow; */
     padding: 6px;
     text-align: left;
     font-weight: bold;
@@ -52,13 +53,14 @@ body {
 
 /* Display Screen */
 #display {
-    background: black;
+    /* background: black; */
+    background-color: rgba(0, 0, 0, 0.2);
     color: lime;
-    padding: 12px;
+    padding: 15px;
     font-size: 14px;
-    border: 2px solid gray;
+    /* border: 2px solid gray; */
     margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     text-shadow: 0 0 8px lime;
 }
 
@@ -115,9 +117,9 @@ body {
 
 /* Button Hover Effect */
 .control-btn:hover {
-    background-color: rgba(255, 255, 0, 0.3);
-    filter: brightness(1.2);
-    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    filter: brightness(2.2);
+    border-radius: 100px;
 }
 
 /* Seek & Volume Icons */
@@ -132,7 +134,8 @@ body {
     align-items: flex-end;
     width: 100%;
     height: 150px; /* Increase height */
-    background: black;
+    /* background: black; */
+    background-color: rgba(0, 0, 0, 0.2);
     padding: 5px;
     margin-top: 10px;
 }
@@ -146,8 +149,8 @@ body {
 }
 
 #lyrics-display {
-    background-color: rgba(0, 0, 0, 0.7);
-    border: 1px solid gray;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* border: 1px solid gray; */
     color: lime;
     padding: 10px;
     margin-top: 12px;
