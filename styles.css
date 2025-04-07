@@ -6,7 +6,9 @@ body {
     align-items: center;
     height: 100vh;
 }
-
+::-webkit-scrollbar {
+    display: none;
+}
 .player-container {
     -webkit-app-region: drag;
     background-color: #030303;
