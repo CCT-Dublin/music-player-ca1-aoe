@@ -17,7 +17,7 @@ body {
     padding: 20px;
     border-radius: 20px;
     color: #ffffff;
-    box-shadow: 0 0 50px rgba(0,0,0,0.3);
+    /* box-shadow: 0 0 50px rgba(0,0,0,0.3); */
 }
 
 /* Theme Variables */
@@ -41,8 +41,6 @@ body {
 /* Header */
 #header {
     font-size: 14px;
-    /* background: black; */
-    /* color: yellow; */
     padding: 6px;
     text-align: left;
     font-weight: bold;
@@ -98,7 +96,7 @@ body {
 }
 
 .control-icon img {
-    width: 25px; /* Adjusted size */
+    width: 25px; Adjusted size
     height: 25px;
 }
 /* Adjust Button Styles */
