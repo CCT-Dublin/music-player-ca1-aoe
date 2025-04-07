@@ -11,6 +11,7 @@ const createWindow = () => {
     frame: false,
     resizable: true,
     transparent: true,
+    
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'), // Use preload script for security
       nodeIntegration: true,  // Needed for require in renderer (security risk for production)
