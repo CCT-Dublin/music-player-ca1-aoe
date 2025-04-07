@@ -56,7 +56,8 @@ function loadSong(index = currentSongIndex) {
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
     songTitle.textContent = songs[currentSongIndex].split('/').pop();
-    loadLyricsForSong(songs[currentSongIndex]); 
+    loadLyricsForSong(songs[currentSongIndex].split('/').pop());
+
 }
 
 function playSong() {
@@ -136,13 +137,19 @@ nextButton.addEventListener("click", nextSong);
 const lyricsDisplay = document.getElementById("lyrics");
 
 function loadLyricsForSong(songName) {
-    // Dummy lyrics for now
+    // Normalize the input name
+    const normalized = songName.trim().toLowerCase();
+
+    console.log("Normalized song name:", normalized);
+
+    // Normalized lyrics map
     const lyricsMap = {
-        "song1.mp3": `🎶 These are the lyrics\nLine by line\nEnjoy the time`,
-        "song2.mp3": `🔥 Another song\nFeel the beat\nMove your feet`,
-        "song3.mp3": `✨ Calm and slow\nMelodies flow\nLet it grow`
+        "age of empires 2 - soundtrack [jrrr7w4wz18].mp3": `🎶 These are the lyrics\nLine by line\nEnjoy the time`,
+        "the weeknd - call out my name (official video).mp3": `🔥 Another song\nFeel the beat\nMove your feet`,
+        "the weeknd - save your tears (official music video).mp3": `✨ Calm and slow\nMelodies flow\nLet it grow`
     };
 
-    const lyrics = lyricsMap[songName] || "No lyrics available.";
+    const lyrics = lyricsMap[normalized] || "No lyrics available.";
     lyricsDisplay.textContent = lyrics;
 }
+
