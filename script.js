@@ -127,12 +127,38 @@ window.musicAPI.getSongs().then(fileList => {
     loadSong(); // Load first song
 });
 
-// 🎧 Button events
-playButton.addEventListener("click", playSong);
-pauseButton.addEventListener("click", pauseSong);
-stopButton.addEventListener("click", stopSong);
-prevButton.addEventListener("click", prevSong);
-nextButton.addEventListener("click", nextSong);
+// 🎧 Button events with toggle play/pause logic
+let isPlaying = false;
+
+playButton.addEventListener("click", () => {
+    if (audio.paused) {
+        playSong();
+        playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+        isPlaying = true;
+    } else {
+        pauseSong();
+        playButton.innerHTML = `<i class="fa-solid fa-play"></i>`;
+        isPlaying = false;
+    }
+});
+
+stopButton.addEventListener("click", () => {
+    stopSong();
+    playButton.innerHTML = `<i class="fa-solid fa-play"></i>`;
+    isPlaying = false;
+});
+
+prevButton.addEventListener("click", () => {
+    prevSong();
+    playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+    isPlaying = true;
+});
+
+nextButton.addEventListener("click", () => {
+    nextSong();
+    playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+    isPlaying = true;
+});
 
 const lyricsDisplay = document.getElementById("lyrics");
 

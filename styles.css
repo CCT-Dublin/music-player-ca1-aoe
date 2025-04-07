@@ -113,7 +113,15 @@ body {
     /* color: #2c002191; DodgerBlue */
     transform: scale(1.2);
   }
-  
+
+  #pause {
+    display: none;
+  }
+  /* Hiding the stop button */
+  #stop {
+    display: none; 
+  }
+
   #play {
     font-size: 2.5rem;
   }
