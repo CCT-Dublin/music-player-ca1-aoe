@@ -34,6 +34,7 @@ app.whenReady().then(() => {
   createWindow();
 });
 
+
 // Handle custom window control events
 ipcMain.on('window-control', (event, action) => {
   if (!win) return;
