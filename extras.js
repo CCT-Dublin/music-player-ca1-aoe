@@ -1,12 +1,14 @@
-const { ipcRenderer } = require('electron');
+
 
 // Window control buttons
 document.getElementById('buttonred').addEventListener('click', () => {
-    ipcRenderer.send('window-control', 'close');
-  });
+  window.musicAPI.controlWindow('close');
+});
+
 document.getElementById('buttonyellow').addEventListener('click', () => {
-    ipcRenderer.send('window-control', 'minimize');
-  });
+  window.musicAPI.controlWindow('minimize');
+});
+
 document.getElementById('buttongreen').addEventListener('click', () => {
-    ipcRenderer.send('window-control', 'maximize');
-  });
+  window.musicAPI.controlWindow('maximize');
+});

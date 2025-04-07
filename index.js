@@ -56,3 +56,4 @@ ipcMain.on('window-control', (event, action) => {
       break;
   }
 });
+
