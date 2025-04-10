@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -30,6 +30,23 @@ ipcMain.handle('get-songs', async () => {
   const musicDir = path.join(__dirname, 'music');
   const files = fs.readdirSync(musicDir);
   return files.filter(file => file.endsWith('.mp3'));
+});
+
+// Add this IPC handler to allow folder selection
+ipcMain.handle('select-folder', async () => {
+  const result = await dialog.showOpenDialog(win, {
+    properties: ['openDirectory']
+  });
+
+  if (result.canceled) {
+    return []; // Return an empty array if the user cancels
+  }
+
+  const selectedFolder = result.filePaths[0];
+  const files = fs.readdirSync(selectedFolder);
+  return files
+    .filter(file => file.endsWith('.mp3'))
+    .map(file => path.join(selectedFolder, file)); // Return full paths
 });
 
 app.whenReady().then(() => {
