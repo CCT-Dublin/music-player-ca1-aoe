@@ -95,8 +95,14 @@ function loadSong(index = currentSongIndex) {
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     songTitle.textContent = songs[currentSongIndex].split('/').pop();
     loadLyricsForSong(songs[currentSongIndex]); 
+=======
+    const songName = songs[currentSongIndex].split('/').pop();
+    songTitle.textContent = songName;
+    loadLyricsForSong(songName);
+>>>>>>> Stashed changes
 =======
     const songName = songs[currentSongIndex].split('/').pop();
     songTitle.textContent = songName;
@@ -226,4 +232,7 @@ nextButton.addEventListener("click", () => {
     isPlaying = true;
 });
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

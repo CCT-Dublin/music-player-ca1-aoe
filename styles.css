@@ -147,6 +147,7 @@ body {
 
 #lyrics-display {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     background-color: rgba(0, 0, 0, 0.7);
     border: 1px solid gray;
     color: lime;
@@ -158,6 +159,8 @@ body {
     font-family: monospace;
     font-size: 12px;
 =======
+=======
+>>>>>>> Stashed changes
   background-color: rgba(0, 0, 0, 0.2);
   color: lime;
   padding: 10px;
@@ -168,6 +171,9 @@ body {
   font-family: monospace;
   font-size: 12px;
   white-space: pre-wrap; /* Preserve line breaks in lyrics */
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
