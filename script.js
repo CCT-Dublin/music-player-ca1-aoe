@@ -89,24 +89,9 @@ function nextSong() {
 }
 
 audio.addEventListener("timeupdate", () => {
-    // Update the seek bar
     seekBar.max = audio.duration;
     seekBar.value = audio.currentTime;
-
-    // Format and update the current time and duration display
-    const currentTime = formatTime(audio.currentTime);
-    const duration = formatTime(audio.duration);
-
-    document.getElementById("song-time").textContent = `${currentTime} / ${duration}`;
 });
-
-// Format the time in minutes:seconds (MM:SS)
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
 
 seekBar.addEventListener("input", () => {
     audio.currentTime = seekBar.value;
@@ -142,6 +127,7 @@ window.musicAPI.getSongs().then(fileList => {
     loadSong(); // Load first song
 });
 
+// 🎧 Button events
 // 🎧 Button events with toggle play/pause logic
 let isPlaying = false;
 
@@ -174,6 +160,7 @@ nextButton.addEventListener("click", () => {
     playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
     isPlaying = true;
 });
+
 
 const lyricsDisplay = document.getElementById("lyrics");
 
