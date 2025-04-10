@@ -51,12 +51,57 @@ function stopEqualizer() {
     });
 }
 
+// Add a function to fetch lyrics from an external API
+async function fetchLyrics(artist, title) {
+    const apiUrl = `https://api.lyrics.ovh/v1/${artist}/${title}`;
+    console.log("Fetching lyrics from:", apiUrl); // Log the API URL
+    try {
+        const response = await fetch(apiUrl);
+        console.log("API Response:", response); // Log the response
+        if (!response.ok) {
+            throw new Error("Lyrics not found");
+        }
+        const data = await response.json();
+        console.log("Lyrics Data:", data); // Log the lyrics data
+        return data.lyrics;
+    } catch (error) {
+        console.error("Error fetching lyrics:", error);
+        return "Lyrics not available.";
+    }
+}
+
+// Update the loadLyricsForSong function to fetch lyrics dynamically
+async function loadLyricsForSong(songName) {
+    const lyricsDisplay = document.getElementById("lyrics");
+
+    // Extract artist and title
+    const [artist, title] = songName.replace(".mp3", "").split(" - ");
+    console.log("Extracted Artist:", artist, "Title:", title); // Log artist and title
+
+    if (!artist || !title) {
+        lyricsDisplay.textContent = "Invalid song format. Unable to fetch lyrics.";
+        return;
+    }
+
+    // Fetch lyrics from the API
+    lyricsDisplay.textContent = "Fetching lyrics...";
+    const lyrics = await fetchLyrics(artist.trim(), title.trim());
+    lyricsDisplay.textContent = lyrics;
+}
+
+// Update the loadSong function to include lyrics fetching
 function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
+<<<<<<< Updated upstream
     songTitle.textContent = songs[currentSongIndex].split('/').pop();
     loadLyricsForSong(songs[currentSongIndex]); 
+=======
+    const songName = songs[currentSongIndex].split('/').pop();
+    songTitle.textContent = songName;
+    loadLyricsForSong(songName);
+>>>>>>> Stashed changes
 }
 
 function playSong() {
@@ -127,6 +172,7 @@ window.musicAPI.getSongs().then(fileList => {
 });
 
 // 🎧 Button events
+<<<<<<< Updated upstream
 playButton.addEventListener("click", playSong);
 pauseButton.addEventListener("click", pauseSong);
 stopButton.addEventListener("click", stopSong);
@@ -146,3 +192,38 @@ function loadLyricsForSong(songName) {
     const lyrics = lyricsMap[songName] || "No lyrics available.";
     lyricsDisplay.textContent = lyrics;
 }
+=======
+// 🎧 Button events with toggle play/pause logic
+let isPlaying = false;
+
+playButton.addEventListener("click", () => {
+    if (audio.paused) {
+        playSong();
+        playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+        isPlaying = true;
+    } else {
+        pauseSong();
+        playButton.innerHTML = `<i class="fa-solid fa-play"></i>`;
+        isPlaying = false;
+    }
+});
+
+stopButton.addEventListener("click", () => {
+    stopSong();
+    playButton.innerHTML = `<i class="fa-solid fa-play"></i>`;
+    isPlaying = false;
+});
+
+prevButton.addEventListener("click", () => {
+    prevSong();
+    playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+    isPlaying = true;
+});
+
+nextButton.addEventListener("click", () => {
+    nextSong();
+    playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+    isPlaying = true;
+});
+
+>>>>>>> Stashed changes
