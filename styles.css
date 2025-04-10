@@ -147,7 +147,7 @@ input[type="range"] {
 .eq-bar {
     width: 8px; /* Wider bars */
     height: 6px;
-    background: yellow;
+    background: rgb(34, 255, 0);
     border-radius: 3px;
     transition: height 0.1s ease-in-out;
 }
