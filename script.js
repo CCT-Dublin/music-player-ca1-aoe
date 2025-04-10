@@ -51,63 +51,13 @@ function stopEqualizer() {
     });
 }
 
-// Add a function to fetch lyrics from an external API
-async function fetchLyrics(artist, title) {
-    const apiUrl = `https://api.lyrics.ovh/v1/${artist}/${title}`;
-    console.log("Fetching lyrics from:", apiUrl); // Log the API URL
-    try {
-        const response = await fetch(apiUrl);
-        console.log("API Response:", response); // Log the response
-        if (!response.ok) {
-            throw new Error("Lyrics not found");
-        }
-        const data = await response.json();
-        console.log("Lyrics Data:", data); // Log the lyrics data
-        return data.lyrics;
-    } catch (error) {
-        console.error("Error fetching lyrics:", error);
-        return "Lyrics not available.";
-    }
-}
-
-// Update the loadLyricsForSong function to fetch lyrics dynamically
-async function loadLyricsForSong(songName) {
-    const lyricsDisplay = document.getElementById("lyrics");
-
-    // Extract artist and title
-    const [artist, title] = songName.replace(".mp3", "").split(" - ");
-    console.log("Extracted Artist:", artist, "Title:", title); // Log artist and title
-
-    if (!artist || !title) {
-        lyricsDisplay.textContent = "Invalid song format. Unable to fetch lyrics.";
-        return;
-    }
-
-    // Fetch lyrics from the API
-    lyricsDisplay.textContent = "Fetching lyrics...";
-    const lyrics = await fetchLyrics(artist.trim(), title.trim());
-    lyricsDisplay.textContent = lyrics;
-}
-
-// Update the loadSong function to include lyrics fetching
 function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     songTitle.textContent = songs[currentSongIndex].split('/').pop();
-    loadLyricsForSong(songs[currentSongIndex]); 
-=======
-    const songName = songs[currentSongIndex].split('/').pop();
-    songTitle.textContent = songName;
-    loadLyricsForSong(songName);
->>>>>>> Stashed changes
-=======
-    const songName = songs[currentSongIndex].split('/').pop();
-    songTitle.textContent = songName;
-    loadLyricsForSong(songName);
->>>>>>> Stashed changes
+    loadLyricsForSong(songs[currentSongIndex].split('/').pop());
+
 }
 
 function playSong() {
@@ -178,27 +128,6 @@ window.musicAPI.getSongs().then(fileList => {
 });
 
 // 🎧 Button events
-<<<<<<< Updated upstream
-playButton.addEventListener("click", playSong);
-pauseButton.addEventListener("click", pauseSong);
-stopButton.addEventListener("click", stopSong);
-prevButton.addEventListener("click", prevSong);
-nextButton.addEventListener("click", nextSong);
-
-const lyricsDisplay = document.getElementById("lyrics");
-
-function loadLyricsForSong(songName) {
-    // Dummy lyrics for now
-    const lyricsMap = {
-        "song1.mp3": `🎶 These are the lyrics\nLine by line\nEnjoy the time`,
-        "song2.mp3": `🔥 Another song\nFeel the beat\nMove your feet`,
-        "song3.mp3": `✨ Calm and slow\nMelodies flow\nLet it grow`
-    };
-
-    const lyrics = lyricsMap[songName] || "No lyrics available.";
-    lyricsDisplay.textContent = lyrics;
-}
-=======
 // 🎧 Button events with toggle play/pause logic
 let isPlaying = false;
 
@@ -232,7 +161,23 @@ nextButton.addEventListener("click", () => {
     isPlaying = true;
 });
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
+const lyricsDisplay = document.getElementById("lyrics");
+
+function loadLyricsForSong(songName) {
+    // Normalize the input name
+    const normalized = songName.trim().toLowerCase();
+
+    console.log("Normalized song name:", normalized);
+
+    // Normalized lyrics map
+    const lyricsMap = {
+        "age of empires 2 - soundtrack [jrrr7w4wz18].mp3": `🎶 These are the lyrics\nLine by line\nEnjoy the time`,
+        "the weeknd - call out my name (official video).mp3": `🔥 Another song\nFeel the beat\nMove your feet`,
+        "the weeknd - save your tears (official music video).mp3": `✨ Calm and slow\nMelodies flow\nLet it grow`
+    };
+
+    const lyrics = lyricsMap[normalized] || "No lyrics available.";
+    lyricsDisplay.textContent = lyrics;
+}
+

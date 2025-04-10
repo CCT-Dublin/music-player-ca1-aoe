@@ -16,17 +16,22 @@
           <button class="window-button yellow" id="buttonyellow"></button>
           <button class="window-button green" id="buttongreen"></button>
         </div>
-
         <!-- Winamp Header -->
         <header id="header">
             <h1 id="winamp-title">Alutech</h1>
-            <button id="theme-toggle">🌙/☀️</button>
+            <button id="theme-toggle"><i class="fa-solid fa-toggle-off"></i></button>
         </header>
 
         <!-- Display Screen -->
         <section id="display">
             <span id="song-title">No Song Playing</span>
             <div id="song-time">00:00 / 00:00</div>
+        </section>
+
+
+        <!-- Seek Controls -->
+        <section id="seek-controls">
+            <input type="range" id="seek-bar" min="0" value="0">
         </section>
 
         <!-- Controls -->
@@ -39,6 +44,11 @@
             <!-- <button id="shuffle" class="control-btn" aria-label="Shuffle">🔀</button> -->
         </section>
 
+        <!-- Volume Controls -->
+        <section id="volume-controls">
+            <input type="range" id="volume-bar" class="volume" min="0" max="1" step="0.1" value="0.5">
+        </section>
+
         <!-- Lyrics Display -->
         <section id="lyrics-display">
             <h3>Lyrics</h3>
@@ -46,11 +56,7 @@
         </section>
 
 
-        <!-- Seek & Volume Controls -->
-        <section id="seek-volume-controls">
-            <input type="range" id="seek-bar" min="0" value="0">
-            <input type="range" id="volume-bar" class="volume" min="0" max="1" step="0.1" value="0.5">
-        </section>
+
 
 
         <!-- Playlist -->
@@ -64,6 +70,9 @@
 
         <!-- Equalizer -->
         <section id="equalizer">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
