@@ -56,8 +56,8 @@ function loadSong(index = currentSongIndex) {
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
     songTitle.textContent = songs[currentSongIndex].split('/').pop();
-    loadLyricsForSong(songs[currentSongIndex].split('/').pop());
-
+    const songName = songs[currentSongIndex].split('/').pop();
+    loadLyricsForSong(songName); // Fetch lyrics for the current song
 }
 
 function playSong() {
@@ -161,23 +161,28 @@ nextButton.addEventListener("click", () => {
     isPlaying = true;
 });
 
-
 const lyricsDisplay = document.getElementById("lyrics");
 
-function loadLyricsForSong(songName) {
-    // Normalize the input name
-    const normalized = songName.trim().toLowerCase();
+// Function to fetch lyrics from an external API
+async function loadLyricsForSong(songName) {
+    // Extract artist and title from the song name
+    const [artist, title] = songName.replace('.mp3', '').split(' - ').map(part => part.trim());
 
-    console.log("Normalized song name:", normalized);
+    if (!artist || !title) {
+        lyricsDisplay.textContent = "Unable to fetch lyrics. Invalid song format.";
+        return;
+    }
 
-    // Normalized lyrics map
-    const lyricsMap = {
-        "age of empires 2 - soundtrack [jrrr7w4wz18].mp3": `🎶 These are the lyrics\nLine by line\nEnjoy the time`,
-        "the weeknd - call out my name (official video).mp3": `🔥 Another song\nFeel the beat\nMove your feet`,
-        "the weeknd - save your tears (official music video).mp3": `✨ Calm and slow\nMelodies flow\nLet it grow`
-    };
-
-    const lyrics = lyricsMap[normalized] || "No lyrics available.";
-    lyricsDisplay.textContent = lyrics;
+    try {
+        const response = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`);
+        if (!response.ok) {
+            throw new Error("Lyrics not found");
+        }
+        const data = await response.json();
+        lyricsDisplay.textContent = data.lyrics || "No lyrics available.";
+    } catch (error) {
+        console.error("Error fetching lyrics:", error);
+        lyricsDisplay.textContent = "No lyrics available online or external API error";
+    }
 }
 

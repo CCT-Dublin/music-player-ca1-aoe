@@ -22,6 +22,7 @@ const createWindow = () => {
   });
 
   win.loadFile('index.html');
+  win.webContents.openDevTools();
 };
 
 // Handle file loading from the music folder
