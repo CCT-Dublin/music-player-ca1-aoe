@@ -10,6 +10,7 @@ const volumeBar = document.getElementById("volume-bar");
 const themeToggle = document.getElementById("theme-toggle");
 const eqBars = document.querySelectorAll(".eq-bar");
 const playlistEl = document.querySelector("#playlist ul");
+const addFolderButton = document.getElementById("add-folder");
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const analyser = audioContext.createAnalyser();
@@ -108,14 +109,17 @@ themeToggle.addEventListener("click", () => {
 // 🎵 Load songs dynamically from music folder
 window.musicAPI.getSongs().then(fileList => {
     songs = fileList.map(name => `music/${name}`);
-    playlistEl.innerHTML = "";
+    playlistEl.innerHTML = ""; // Clear the playlist
 
     songs.forEach((src, index) => {
+        const fileName = src.split('/').pop(); // Extract the file name from the path
+        const [artist, title] = fileName.replace('.mp3', '').split(' - ').map(part => part.trim()); // Extract artist and title
+
         const li = document.createElement("li");
         const button = document.createElement("button");
         button.classList.add("playlist-item");
         button.dataset.src = src;
-        button.textContent = `🎵 ${src.split('/').pop()}`;
+        button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`; // Fallback to file name if format is invalid
         button.addEventListener("click", () => {
             loadSong(index);
             playSong();
@@ -124,7 +128,7 @@ window.musicAPI.getSongs().then(fileList => {
         playlistEl.appendChild(li);
     });
 
-    loadSong(); // Load first song
+    loadSong(); // Load the first song
 });
 
 // 🎧 Button events
@@ -185,4 +189,40 @@ async function loadLyricsForSong(songName) {
         lyricsDisplay.textContent = "No lyrics available online or external API error";
     }
 }
+
+// Function to add songs from a selected folder
+async function addSongsFromFolder() {
+    const newSongs = await window.musicAPI.selectFolder();
+    if (newSongs.length === 0) {
+        alert("No songs were added.");
+        return;
+    }
+
+    // Add new songs to the playlist
+    songs = [...songs, ...newSongs];
+    playlistEl.innerHTML = ""; // Clear the playlist
+
+    songs.forEach((src, index) => {
+        const fileName = src.split('\\').pop(); // Extract file name from the path
+        const [artist, title] = fileName.replace('.mp3', '').split(' - ').map(part => part.trim()); // Extract artist and title
+
+        const li = document.createElement("li");
+        const button = document.createElement("button");
+        button.classList.add("playlist-item");
+        button.dataset.src = src;
+        button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`; // Fallback to file name if format is invalid
+        button.addEventListener("click", () => {
+            loadSong(index);
+            playSong();
+        });
+        li.appendChild(button);
+        playlistEl.appendChild(li);
+    });
+
+    alert(`${newSongs.length} songs added to the playlist.`);
+}
+
+addFolderButton.addEventListener("click", () => {
+    addSongsFromFolder();
+});
 
