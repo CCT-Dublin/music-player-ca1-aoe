@@ -24,6 +24,35 @@ const dataArray = new Uint8Array(bufferLength);
 let songs = [];
 let currentSongIndex = 0;
 
+
+// Initialize the track  
+window.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('audio');
+    const seekBar = document.getElementById('seek-bar');
+    const songTime = document.getElementById('song-time');
+
+    // let currentTrack = null;
+  
+    const formatTime = (sec) => {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    };
+  
+    const updateTime = () => {
+      if (!isNaN(audio.duration)) {
+        songTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+        seekBar.max = audio.duration;
+        seekBar.value = audio.currentTime;
+      }
+    };
+  
+    // Update time every second
+    audio.addEventListener('timeupdate', updateTime);
+  
+  });
+
+// 🎵 Initialize the equalizer bars
 function startEqualizer() {
     if (audioContext.state === "suspended") {
         audioContext.resume();
@@ -52,6 +81,7 @@ function stopEqualizer() {
     });
 }
 
+// 🎵 Load the song and update the title
 function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
@@ -164,6 +194,8 @@ nextButton.addEventListener("click", () => {
     isPlaying = true;
 });
 
+
+// Lyrics display
 const lyricsDisplay = document.getElementById("lyrics");
 
 // Function to fetch lyrics from an external API
@@ -188,6 +220,11 @@ async function loadLyricsForSong(songName) {
         lyricsDisplay.textContent = "No lyrics available online or external API error";
     }
 }
+
+
+
+
+
 
 // Function to add songs from a selected folder
 async function addSongsFromFolder() {
@@ -237,3 +274,7 @@ document.getElementById('buttonred').addEventListener('click', () => {
   document.getElementById('buttongreen').addEventListener('click', () => {
     window.musicAPI.controlWindow('maximize');
   });
+
+
+
+  
