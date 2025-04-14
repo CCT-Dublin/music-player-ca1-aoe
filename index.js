@@ -6,7 +6,7 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    width: 400,
+    width: 1000,
     height: 800,
     frame: false,
     resizable: true,
@@ -22,7 +22,7 @@ const createWindow = () => {
   });
 
   win.loadFile('index.html');
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools(); // This open the developer tools for debugging, DONT USE IT
 };
 
 // Handle file loading from the music folder
