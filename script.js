@@ -166,28 +166,28 @@ nextButton.addEventListener("click", () => {
 
 const lyricsDisplay = document.getElementById("lyrics");
 
-// // Function to fetch lyrics from an external API
-// async function loadLyricsForSong(songName) {
-//     // Extract artist and title from the song name
-//     const [artist, title] = songName.replace('.mp3', '').split(' - ').map(part => part.trim());
+// Function to fetch lyrics from an external API
+async function loadLyricsForSong(songName) {
+    // Extract artist and title from the song name
+    const [artist, title] = songName.replace('.mp3', '').split(' - ').map(part => part.trim());
 
-//     if (!artist || !title) {
-//         lyricsDisplay.textContent = "Unable to fetch lyrics. Invalid song format.";
-//         return;
-//     }
+    if (!artist || !title) {
+        lyricsDisplay.textContent = "Unable to fetch lyrics. Invalid song format.";
+        return;
+    }
 
-//     try {
-//         const response = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`);
-//         if (!response.ok) {
-//             throw new Error("Lyrics not found");
-//         }
-//         const data = await response.json();
-//         lyricsDisplay.textContent = data.lyrics || "No lyrics available.";
-//     } catch (error) {
-//         console.error("Error fetching lyrics:", error);
-//         lyricsDisplay.textContent = "No lyrics available online or external API error";
-//     }
-// }
+    try {
+        const response = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`);
+        if (!response.ok) {
+            throw new Error("Lyrics not found");
+        }
+        const data = await response.json();
+        lyricsDisplay.textContent = data.lyrics || "No lyrics available.";
+    } catch (error) {
+        console.error("Error fetching lyrics:", error);
+        lyricsDisplay.textContent = "No lyrics available online or external API error";
+    }
+}
 
 // Function to add songs from a selected folder
 async function addSongsFromFolder() {
