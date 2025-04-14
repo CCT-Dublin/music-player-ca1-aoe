@@ -221,11 +221,6 @@ async function loadLyricsForSong(songName) {
     }
 }
 
-
-
-
-
-
 // Function to add songs from a selected folder
 async function addSongsFromFolder() {
     const newSongs = await window.musicAPI.selectFolder();
@@ -240,7 +235,7 @@ async function addSongsFromFolder() {
 
     songs.forEach((src, index) => {
         const fileName = src.split('\\').pop(); // Extract file name from the path
-        const [artist, title] = fileName.replace('.mp3', '').split(' - ').map(part => part.trim()); // Extract artist and title
+        const [artist, title] = fileName.replace('.mp3','').split(' - ').map(part => part.trim()); // Extract artist and title
 
         const li = document.createElement("li");
         const button = document.createElement("button");
