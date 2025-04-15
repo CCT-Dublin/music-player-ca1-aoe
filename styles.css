@@ -12,7 +12,7 @@ body {
 .player-container {
     -webkit-app-region: drag;
     background-image: linear-gradient(to bottom right, rgb(37, 57, 238), rgb(206, 30, 177));
-    width: 320px;
+    width: 1000px;
     padding: 20px;
     border-radius: 20px;
     color: #ffffff;
@@ -204,3 +204,73 @@ input[type="range"] {
     background-color: lime;
     border-radius: 3px;
 }
+/* Layout: Main Three Columns */
+#main-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+/* Column panels */
+#playlist-panel, 
+#equalizer-panel, 
+#lyrics-panel {
+  -webkit-app-region: no-drag;
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  overflow: hidden;
+}
+
+/* Headings inside panels */
+#playlist-panel h3,
+#equalizer-panel h3,
+#lyrics-panel h3 {
+  color: lime;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-shadow: 0 0 5px lime;
+}
+
+/* Equalizer sliders container */
+#equalizer-controls {
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eq-slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: lime;
+  text-shadow: 0 0 4px lime;
+}
+
+/* Bottom bar layout */
+#bottom-bar {
+  margin-top: 20px;
+  background: #444;
+  border-radius: 10px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Override width limit for range bars */
+#seek-controls input[type="range"],
+#volume-controls input[type="range"] {
+  max-width: 100%;
+}
+

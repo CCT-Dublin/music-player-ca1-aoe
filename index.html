@@ -1,92 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alutech Music Player</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/27fe0181dd.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alutech Music Player</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://kit.fontawesome.com/27fe0181dd.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="player-container">
-
-        <!-- Window Controls -->
-        <div class="window-controls">
-          <button class="window-button red" id="buttonred"></button>
-          <button class="window-button yellow" id="buttonyellow"></button>
-          <button class="window-button green" id="buttongreen"></button>
-        </div>
-        <!-- Winamp Header -->
-        <header id="header">
-            <h1 id="winamp-title">Alutech</h1>
-            <button id="theme-toggle"><i class="fa-solid fa-toggle-off"></i></button>
-        </header>
-
-        <!-- Display Screen -->
-        <section id="display">
-            <span id="song-title">No Song Playing</span>
-            <div id="song-time">00:00 / 00:00</div>
-        </section>
-
-        <!-- Seek Controls -->
-        <section id="seek-controls">
-            <input type="range" id="seek-bar" min="0" value="0">
-        </section>
-
-        <!-- Controls -->
-        <section id="controls">
-            <button id="prev" class="control-btn" aria-label="Previous Song"><i class="fa-solid fa-backward"></i></button>
-            <button id="play" class="control-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-            <button id="pause" class="control-btn" aria-label="Pause"><i class="fa-solid fa-pause"></i></button>
-            <button id="stop" class="control-btn" aria-label="Stop"><i class="fa-solid fa-stop"></i></button>
-            <button id="next" class="control-btn" aria-label="Next Song"><i class="fa-solid fa-forward"></i></button>
-            <!-- <button id="shuffle" class="control-btn" aria-label="Shuffle">🔀</button> -->
-        </section>
-
-        <!-- Folder Controls -->
-        <section id="folder-controls">
-            <button id="add-folder" class="control-btn" aria-label="Add Folder">
-                <i class="fa-solid fa-folder-plus"></i> Add Folder
-            </button>
-        </section>
-
-        <!-- Volume Controls -->
-        <section id="volume-controls">
-            <input type="range" id="volume-bar" class="volume" min="0" max="1" step="0.1" value="0.5">
-        </section>
-
-        <!-- Lyrics Display -->
-        <section id="lyrics-display">
-            <h3>Lyrics</h3>
-            <pre id="lyrics">No lyrics available.</pre>
-        </section>
-
-        <!-- Playlist -->
-        <section id="playlist">
-            <ul>
-                <li><button class="playlist-item" data-src="song1.mp3"></button></li>
-
-            </ul>
-        </section>
-
-        <!-- Equalizer -->
-        <section id="equalizer">
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-        </section>
+  <div class="player-container">
+    
+    <!-- Window Controls -->
+    <div class="window-controls">
+      <button class="window-button red" id="buttonred"></button>
+      <button class="window-button yellow" id="buttonyellow"></button>
+      <button class="window-button green" id="buttongreen"></button>
     </div>
 
-     <!-- Hidden audio element -->
-     <audio id="audio"></audio>
-    <script src="script.js"></script>
+    <!-- Header -->
+    <header id="header">
+      <h1 id="winamp-title">Alutech</h1>
+      <button id="theme-toggle"><i class="fa-solid fa-toggle-off"></i></button>
+    </header>
+
+    <!-- MAIN LAYOUT AREA -->
+    <div id="main-content">
+      <!-- Playlist Column -->
+      <div id="playlist-panel">
+        <h3>Playlist</h3>
+        <section id="playlist">
+          <ul>
+            <li><button class="playlist-item" data-src="song1.mp3">Song 1</button></li>
+            <!-- Add more songs here -->
+          </ul>
+        </section>
+      </div>
+
+      <!-- Equalizer Column -->
+      <div id="equalizer-panel">
+        <h3>Equalizer</h3>
+        <section id="equalizer">
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+        </section>
+        <div id="equalizer-controls">
+          <div class="eq-slider"><label>Bass</label><input type="range"></div>
+          <div class="eq-slider"><label>Mid</label><input type="range"></div>
+          <div class="eq-slider"><label>Treble</label><input type="range"></div>
+        </div>
+      </div>
+
+      <!-- Lyrics Column -->
+      <div id="lyrics-panel">
+        <div id="display">
+          <span id="song-title">No Song Playing</span>
+          <div id="song-time">00:00 / 00:00</div>
+        </div>
+        <section id="lyrics-display">
+          <h3>Track Info</h3>
+          <pre id="lyrics">Lyrics...</pre>
+        </section>
+      </div>
+    </div>
+
+    <!-- BOTTOM CONTROLS AREA -->
+    <div id="bottom-bar">
+      <!-- Seek Bar -->
+      <section id="seek-controls">
+        <input type="range" id="seek-bar" min="0" value="0">
+      </section>
+
+      <!-- Playback Controls -->
+      <section id="controls">
+        <button id="prev" class="control-btn" aria-label="Previous Song"><i class="fa-solid fa-backward"></i></button>
+        <button id="play" class="control-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+        <button id="pause" class="control-btn" aria-label="Pause"><i class="fa-solid fa-pause"></i></button>
+        <button id="stop" class="control-btn" aria-label="Stop"><i class="fa-solid fa-stop"></i></button>
+        <button id="next" class="control-btn" aria-label="Next Song"><i class="fa-solid fa-forward"></i></button>
+      </section>
+
+      <!-- Folder Button -->
+      <section id="folder-controls">
+        <button id="add-folder" class="control-btn" aria-label="Add Folder">
+          <i class="fa-solid fa-folder-plus"></i> Add Folder
+        </button>
+      </section>
+
+      <!-- Volume -->
+      <section id="volume-controls">
+        <input type="range" id="volume-bar" class="volume" min="0" max="1" step="0.1" value="0.5">
+      </section>
+    </div>
+
+  </div>
+
+  <audio id="audio"></audio>
+  <script src="script.js"></script>
 </body>
 </html>
