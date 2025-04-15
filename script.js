@@ -323,3 +323,29 @@ document.getElementById('buttonred').addEventListener('click', () => {
     trebleEQ.gain.value = e.target.value;
   });
   
+  // 🎛 Handle media control events from Windows taskbar buttons
+window.musicAPI.onMediaControl((action) => {
+    switch (action) {
+        case 'previous':
+            prevSong();
+            playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+            isPlaying = true;
+            break;
+        case 'play-pause':
+            if (audio.paused) {
+                playSong();
+                playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+                isPlaying = true;
+            } else {
+                pauseSong();
+                playButton.innerHTML = `<i class="fa-solid fa-play"></i>`;
+                isPlaying = false;
+            }
+            break;
+        case 'next':
+            nextSong();
+            playButton.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+            isPlaying = true;
+            break;
+    }
+});

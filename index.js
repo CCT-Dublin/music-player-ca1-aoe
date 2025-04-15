@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -12,16 +12,39 @@ const createWindow = () => {
     resizable: true,
     transparent: true,
     icon: path.join(__dirname, 'image/logo.png'),
-
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'), // Use preload script for security
-      nodeIntegration: true,  // Needed for require in renderer (security risk for production)
-      contextIsolation: true // Allows access to Node.js APIs directly in renderer
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true
     }
   });
 
   win.loadFile('index.html');
-  // win.webContents.openDevTools(); // This opens the developer tools for debugging
+
+  // --- Add media control buttons to Windows taskbar ---
+  win.setThumbarButtons([
+    {
+      tooltip: 'Previous',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'prev.png')),
+      click: () => {
+        win.webContents.send('media-control', 'previous');
+      }
+    },
+    {
+      tooltip: 'Play/Pause',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'play.png')),
+      click: () => {
+        win.webContents.send('media-control', 'play-pause');
+      }
+    },
+    {
+      tooltip: 'Next',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'next.png')),
+      click: () => {
+        win.webContents.send('media-control', 'next');
+      }
+    }
+  ]);
 };
 
 // Handle file loading from the music folder
@@ -31,7 +54,7 @@ ipcMain.handle('get-songs', async () => {
   return files.filter(file => file.match(/\.(mp3|wav|ogg)$/i));
 });
 
-// Add this IPC handler to allow folder selection
+// Allow folder selection
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog(win, {
     properties: ['openDirectory']
@@ -53,7 +76,7 @@ app.whenReady().then(() => {
   createWindow();
 });
 
-// Handle custom window control events
+// Custom window controls
 ipcMain.on('window-control', (event, action) => {
   if (!win) return;
 
@@ -65,11 +88,7 @@ ipcMain.on('window-control', (event, action) => {
       win.minimize();
       break;
     case 'maximize':
-      if (win.isMaximized()) {
-        win.restore();
-      } else {
-        win.maximize();
-      }
+      win.isMaximized() ? win.restore() : win.maximize();
       break;
   }
 });
