@@ -11,6 +11,9 @@ const themeToggle = document.getElementById("theme-toggle");
 const eqBars = document.querySelectorAll(".eq-bar");
 const playlistEl = document.querySelector("#playlist ul");
 const addFolderButton = document.getElementById("add-folder");
+const volumeIcon = document.querySelector('.volume-icon'); // Get the volume icon
+let isMuted = false;
+let previousVolume = 0.5; // Store the volume before muting
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const source = audioContext.createMediaElementSource(audio);
@@ -155,6 +158,8 @@ seekBar.addEventListener("input", () => {
 
 volumeBar.addEventListener("input", () => {
     audio.volume = volumeBar.value;
+    isMuted = false; // Unmute if the volume bar is changed
+    updateVolumeIcon(audio.volume);
 });
 
 themeToggle.addEventListener("click", () => {
@@ -363,3 +368,34 @@ window.musicAPI.onMediaControl((action) => {
             break;
     }
 });
+
+// Volume mute/unmute functionality
+volumeIcon.addEventListener('click', () => {
+    isMuted = !isMuted;
+
+    if (isMuted) {
+        previousVolume = audio.volume;
+        audio.volume = 0;
+        volumeBar.value = 0;
+        volumeIcon.classList.remove('fa-volume-low', 'fa-volume-high', 'fa-volume-off');
+        volumeIcon.classList.add('fa-volume-mute');
+    } else {
+        audio.volume = previousVolume;
+        volumeBar.value = previousVolume;
+        updateVolumeIcon(previousVolume); // Update the icon based on the stored volume
+    }
+});
+
+function updateVolumeIcon(volume) {
+    volumeIcon.classList.remove('fa-volume-mute', 'fa-volume-low', 'fa-volume-high', 'fa-volume-off');
+    if (volume === 0) {
+        volumeIcon.classList.add('fa-volume-off');
+    } else if (volume < 0.5) {
+        volumeIcon.classList.add('fa-volume-low');
+    } else {
+        volumeIcon.classList.add('fa-volume-high');
+    }
+}
+
+// Call updateVolumeIcon initially to set the correct icon
+updateVolumeIcon(audio.volume);
