@@ -138,28 +138,40 @@ themeToggle.addEventListener("click", () => {
 
 // 🎵 Load songs dynamically from music folder
 window.musicAPI.getSongs().then(fileList => {
+    // Pause any currently playing audio if applicable
+    if (audio && !audio.paused) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    // Clear playlist and any active indicators
+    playlistEl.innerHTML = "";
+    songs = [];
+
+    // Build new playlist
     songs = fileList.map(name => `music/${name}`);
-    playlistEl.innerHTML = ""; // Clear the playlist
 
     songs.forEach((src, index) => {
-        const fileName = src.split('/').pop(); // Extract the file name from the path
-        const [artist, title] = fileName.replace('.mp3', '').split(' - ').map(part => part.trim()); // Extract artist and title
+        const fileName = src.split('/').pop();
+        const [artist, title] = fileName.replace('.mp3', '').split(' - ').map(part => part.trim());
 
         const li = document.createElement("li");
         const button = document.createElement("button");
         button.classList.add("playlist-item");
         button.dataset.src = src;
-        button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`; // Fallback to file name if format is invalid
+        button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`;
         button.addEventListener("click", () => {
             loadSong(index);
             playSong();
         });
+
         li.appendChild(button);
         playlistEl.appendChild(li);
     });
 
     loadSong(); // Load the first song
 });
+
 
 // 🎧 Button events with toggle play/pause logic
 let isPlaying = false;
@@ -223,6 +235,10 @@ async function loadLyricsForSong(songName) {
 
 // Function to add songs from a selected folder
 async function addSongsFromFolder() {
+     // Clear playlist and any active indicators
+     playlistEl.innerHTML = "";
+     songs = [];
+     
     const newSongs = await window.musicAPI.selectFolder();
     if (newSongs.length === 0) {
         alert("No songs were added.");
