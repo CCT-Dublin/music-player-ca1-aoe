@@ -259,20 +259,70 @@ input[type="range"] {
   text-shadow: 0 0 4px lime;
 }
 
-/* Bottom bar layout */
+/* Bottom bar layout - Reduced Height */
 #bottom-bar {
-  margin-top: 20px;
+  margin-top: 10px; /* Adjust top margin if needed */
   background: #444;
   border-radius: 10px;
-  padding: 15px 10px;
+  padding: 7px 5px; /* Further reduce vertical padding and horizontal padding */
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: space-between; /* Distribute space between elements */
+  height: auto; /* Let content determine height, adjust min/max if needed */
 }
 
-/* Override width limit for range bars */
+/* Seek & volume containers - Reduced Padding */
+#seek-controls,
+#volume-controls {
+  -webkit-app-region: no-drag;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem; /* Reduce horizontal padding */
+}
+
+/* Controls - Reduced Gap and Button Size */
+#controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Reduce gap between buttons */
+  margin: 7px; /* Adjust margin */
+}
+
+/* Control Buttons - Smaller Size */
+.control-btn {
+  -webkit-app-region: no-drag;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem; /* Further reduce font size */
+  cursor: pointer;
+  padding: 0.25rem 0.5rem; /* Reduce button padding */
+  margin-top: 0; /* Ensure no extra top margin */
+}
+
+#play {
+  font-size: 1.5rem; /* Adjust play button size */
+}
+
+/* Add Folder button - Smaller Text */
+#add-folder-container {
+  -webkit-app-region: no-drag;
+  padding-left: 5px; /* Adjust left padding */
+}
+
+#add-folder-container button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.8rem; /* Reduce font size of "Add Folder" */
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Seek & volume sliders - Reduced Margin */
 #seek-controls input[type="range"],
 #volume-controls input[type="range"] {
-  max-width: 100%;
+  margin: 3px 0; /* Further reduce vertical margin */
 }
-
