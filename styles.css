@@ -13,6 +13,7 @@ body {
     -webkit-app-region: drag;
     background-image: linear-gradient(to bottom right, rgb(37, 57, 238), rgb(206, 30, 177));
     width: 1000px;
+    height: 700px;
     padding: 20px;
     border-radius: 20px;
     color: #ffffff;
@@ -225,7 +226,7 @@ input[type="range"] {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 500px;
   overflow: hidden;
 }
 
