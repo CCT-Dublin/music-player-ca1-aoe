@@ -270,14 +270,23 @@ input[type="range"] {
   justify-content: space-between; /* Distribute space between elements */
   height: auto; /* Let content determine height, adjust min/max if needed */
 }
-
-/* Seek & volume containers - Reduced Padding */
-#seek-controls,
+/* Volume Controls - Icon Next to Bar (Corrected) */
 #volume-controls {
   -webkit-app-region: no-drag;
   display: flex;
-  align-items: center;
-  padding: 0 0.5rem; /* Reduce horizontal padding */
+  align-items: center; /* Align icon and slider vertically */
+  padding: 0 0.5rem; /* Adjust horizontal padding as needed */
+}
+
+#volume-controls .volume-icon {
+  font-size: 1rem; /* Adjust icon size */
+  color: #fff; /* Icon color */
+  margin-right: 0.5rem; /* Add spacing between icon and slider */
+}
+
+#volume-controls input[type="range"] {
+  margin: 3px 0; /* Adjust vertical margin of slider */
+  flex-grow: 1; /* Allow the slider to take up remaining space */
 }
 
 /* Controls - Reduced Gap and Button Size */
