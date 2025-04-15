@@ -153,17 +153,19 @@ input[type="range"] {
 }
 
 #lyrics-display {
-    background-color: rgba(0, 0, 0, 0.2);
-    /* border: 1px solid gray; */
-    color: lime;
-    padding: 10px;
-    margin-top: 12px;
-    max-height: 150px;
-    overflow-y: auto;
-    border-radius: 5px;
-    font-family: monospace;
-    /* font-siz/e: 12px; */
+  -webkit-app-region: no-drag; /* allow scrolling & text selection */
+  pointer-events: auto;         /* re-enable mouse interaction */
+  background-color: rgba(0, 0, 0, 0.2);
+  color: lime;
+  padding: 10px;
+  margin-top: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 5px;
+  font-family: monospace;
+  scroll-behavior: smooth;
 }
+
 
 .window-controls {
     -webkit-app-region: no-drag;
@@ -193,4 +195,12 @@ input[type="range"] {
   .window-button.green {
     background-color: #27c93f;
   }
-  
+  #lyrics-display::-webkit-scrollbar {
+    display: initial;
+    width: 6px;
+}
+
+#lyrics-display::-webkit-scrollbar-thumb {
+    background-color: lime;
+    border-radius: 3px;
+}
