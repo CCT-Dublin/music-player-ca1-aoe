@@ -52,11 +52,21 @@
           <div class="eq-bar"></div>
           <div class="eq-bar"></div>
         </section>
-        <div id="equalizer-controls">
-          <div class="eq-slider"><label>Bass</label><input type="range"></div>
-          <div class="eq-slider"><label>Mid</label><input type="range"></div>
-          <div class="eq-slider"><label>Treble</label><input type="range"></div>
-        </div>
+        <section id="equalizer-controls">
+            <h4>Equalizer</h4>
+            <div class="eq-slider">
+              <label for="bass">Bass</label>
+              <input type="range" id="bass" min="-30" max="30" value="0">
+            </div>
+            <div class="eq-slider">
+              <label for="mid">Mid</label>
+              <input type="range" id="mid" min="-30" max="30" value="0">
+            </div>
+            <div class="eq-slider">
+              <label for="treble">Treble</label>
+              <input type="range" id="treble" min="-30" max="30" value="0">
+            </div>
+          </section>          
       </div>
 
       <!-- Lyrics Column -->

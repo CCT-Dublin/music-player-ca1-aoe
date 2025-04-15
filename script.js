@@ -13,13 +13,36 @@ const playlistEl = document.querySelector("#playlist ul");
 const addFolderButton = document.getElementById("add-folder");
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const analyser = audioContext.createAnalyser();
 const source = audioContext.createMediaElementSource(audio);
-source.connect(analyser);
-analyser.connect(audioContext.destination);
+
+// 🎛 Equalizer filters
+const bassEQ = audioContext.createBiquadFilter();
+bassEQ.type = "lowshelf";
+bassEQ.frequency.value = 200;
+
+const midEQ = audioContext.createBiquadFilter();
+midEQ.type = "peaking";
+midEQ.frequency.value = 1000;
+midEQ.Q.value = 1;
+
+const trebleEQ = audioContext.createBiquadFilter();
+trebleEQ.type = "highshelf";
+trebleEQ.frequency.value = 3000;
+
+// 🔊 Analyzer (for visual bars)
+const analyser = audioContext.createAnalyser();
 analyser.fftSize = 32;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
+
+// 🔗 Connect everything: source → EQs → analyser → destination
+source
+  .connect(bassEQ)
+  .connect(midEQ)
+  .connect(trebleEQ)
+  .connect(analyser)
+  .connect(audioContext.destination);
+
 
 let songs = [];
 let currentSongIndex = 0;
@@ -287,6 +310,16 @@ document.getElementById('buttonred').addEventListener('click', () => {
     window.musicAPI.controlWindow('maximize');
   });
 
-
-
+  // 🎚 Equalizer controls listeners
+  document.getElementById("bass").addEventListener("input", (e) => {
+    bassEQ.gain.value = e.target.value;
+  });
+  
+  document.getElementById("mid").addEventListener("input", (e) => {
+    midEQ.gain.value = e.target.value;
+  });
+  
+  document.getElementById("treble").addEventListener("input", (e) => {
+    trebleEQ.gain.value = e.target.value;
+  });
   
