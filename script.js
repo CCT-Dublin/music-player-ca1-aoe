@@ -86,8 +86,9 @@ function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
-    songTitle.textContent = songs[currentSongIndex].split('/').pop();
-    const songName = songs[currentSongIndex].split('/').pop();
+    songTitle.textContent = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop();
+    const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop();
+
     loadLyricsForSong(songName); // Fetch lyrics for the current song
 }
 
@@ -259,7 +260,7 @@ async function addSongsFromFolder() {
         button.dataset.src = src;
         button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`; // Fallback to file name if format is invalid
         button.addEventListener("click", () => {
-            loadSong(index);
+            loadSong(fileName);
             playSong();
         });
         li.appendChild(button);
