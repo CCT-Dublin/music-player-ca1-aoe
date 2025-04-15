@@ -19,6 +19,7 @@ body {
 }
 /* Header */
 #header {
+  -webkit-app-region: drag;
     font-size: 14px;
     padding: 6px;
     text-align: left;
@@ -176,6 +177,7 @@ input[type="range"] {
   }
 
 .window-button {
+  -webkit-app-region: no-drag;
     width: 12px;
     height: 12px;
     border-radius: 50%;
