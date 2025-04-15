@@ -26,25 +26,20 @@ const createWindow = () => {
     {
       tooltip: 'Previous',
       icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'prev.png')),
-      click: () => {
-        win.webContents.send('media-control', 'previous');
-      }
+      click: () => win.webContents.send('media-control', 'previous')
     },
     {
       tooltip: 'Play/Pause',
       icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'play.png')),
-      click: () => {
-        win.webContents.send('media-control', 'play-pause');
-      }
+      click: () => win.webContents.send('media-control', 'play-pause')
     },
     {
       tooltip: 'Next',
       icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'next.png')),
-      click: () => {
-        win.webContents.send('media-control', 'next');
-      }
+      click: () => win.webContents.send('media-control', 'next')
     }
   ]);
+  
 };
 
 // Handle file loading from the music folder
