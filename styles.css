@@ -250,6 +250,12 @@ input[type="range"] {
   flex-direction: column;
   gap: 8px;
 }
+#equalizer-controls h4 {
+  color: lime;
+  margin-bottom: 10px; /* Adjust margin as needed */
+  font-weight: bold; /* Optional: Make it bold if it isn't already */
+  text-shadow: 0 0 5px lime; /* Optional: Add a glow effect */
+}
 
 .eq-slider {
   display: flex;
