@@ -11,25 +11,24 @@ const createWindow = () => {
     frame: false,
     resizable: true,
     transparent: true,
-    icon: __dirname + '/image/logo.png',
+    icon: path.join(__dirname, 'image/logo.png'),
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'), // Use preload script for security
       nodeIntegration: true,  // Needed for require in renderer (security risk for production)
-      contextIsolation: true // Allows access to Node.js APIs directly in renderer !!!! HERE IS THE PROBLEM! 
-      // When the contextIsolation is true, we can play the music, but we can not use the require function in the renderer process (windows control buttons).
+      contextIsolation: true // Allows access to Node.js APIs directly in renderer
     }
   });
 
   win.loadFile('index.html');
-  // win.webContents.openDevTools(); // This open the developer tools for debugging, DONT USE IT
+  // win.webContents.openDevTools(); // This opens the developer tools for debugging
 };
 
 // Handle file loading from the music folder
 ipcMain.handle('get-songs', async () => {
   const musicDir = path.join(__dirname, 'music');
   const files = fs.readdirSync(musicDir);
-  return files.filter(file => file.endsWith('.mp3'));
+  return files.filter(file => file.match(/\.(mp3|wav|ogg)$/i));
 });
 
 // Add this IPC handler to allow folder selection
@@ -39,20 +38,20 @@ ipcMain.handle('select-folder', async () => {
   });
 
   if (result.canceled) {
-    return []; // Return an empty array if the user cancels
+    return [];
   }
 
   const selectedFolder = result.filePaths[0];
   const files = fs.readdirSync(selectedFolder);
+
   return files
-    .filter(file => file.endsWith('.mp3'))
-    .map(file => path.join(selectedFolder, file)); // Return full paths
+    .filter(file => file.match(/\.(mp3|wav|ogg)$/i))
+    .map(file => path.join(selectedFolder, file));
 });
 
 app.whenReady().then(() => {
   createWindow();
 });
-
 
 // Handle custom window control events
 ipcMain.on('window-control', (event, action) => {
@@ -74,4 +73,3 @@ ipcMain.on('window-control', (event, action) => {
       break;
   }
 });
-
