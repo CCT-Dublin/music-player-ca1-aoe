@@ -335,3 +335,41 @@ input[type="range"] {
 #volume-controls input[type="range"] {
   margin: 3px 0; /* Further reduce vertical margin */
 }
+
+/* Style for active/playing playlist item */
+.playlist-item.active,
+.playlist-item:hover { /* Apply hover effect as well for better UX */
+  color: lime;
+  text-shadow: 0 0 8px lime;
+  background-color: rgba(0, 0, 0, 0.2); /* Optional: Add a subtle background */
+  border-radius: 5px; /* Optional: Add slight rounding */
+  padding: 5px; /* Optional: Add some padding */
+}
+
+/* Default style for playlist items */
+.playlist-item {
+  color: #ffffff; /* Default white color */
+  background: none;
+  border: none;
+  padding: 5px 0; /* Adjust vertical padding */
+  text-align: left;
+  cursor: pointer;
+  width: 100%; /* Make them full width of the container */
+  box-sizing: border-box; /* Include padding in the width */
+}
+
+.playlist-item:focus {
+  outline: none; /* Remove default focus outline */
+  /* Optionally add a custom focus style */
+  box-shadow: 0 0 5px #ffffff;
+}
+
+#playlist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#playlist li {
+  margin-bottom: 2px; /* Add a little spacing between items */
+}

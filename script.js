@@ -37,43 +37,42 @@ const dataArray = new Uint8Array(bufferLength);
 
 // 🔗 Connect everything: source → EQs → analyser → destination
 source
-  .connect(bassEQ)
-  .connect(midEQ)
-  .connect(trebleEQ)
-  .connect(analyser)
-  .connect(audioContext.destination);
+    .connect(bassEQ)
+    .connect(midEQ)
+    .connect(trebleEQ)
+    .connect(analyser)
+    .connect(audioContext.destination);
 
 
 let songs = [];
 let currentSongIndex = 0;
+let currentTrackElement = null; // Keep track of the currently active playlist item
 
 
-// Initialize the track  
+// Initialize the track
 window.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('audio');
     const seekBar = document.getElementById('seek-bar');
     const songTime = document.getElementById('song-time');
 
-    // let currentTrack = null;
-  
     const formatTime = (sec) => {
-      const m = Math.floor(sec / 60).toString().padStart(2, '0');
-      const s = Math.floor(sec % 60).toString().padStart(2, '0');
-      return `${m}:${s}`;
+        const m = Math.floor(sec / 60).toString().padStart(2, '0');
+        const s = Math.floor(sec % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
     };
-  
+
     const updateTime = () => {
-      if (!isNaN(audio.duration)) {
-        songTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-        seekBar.max = audio.duration;
-        seekBar.value = audio.currentTime;
-      }
+        if (!isNaN(audio.duration)) {
+            songTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+            seekBar.max = audio.duration;
+            seekBar.value = audio.currentTime;
+        }
     };
-  
+
     // Update time every second
     audio.addEventListener('timeupdate', updateTime);
-  
-  });
+
+});
 
 // 🎵 Initialize the equalizer bars
 function startEqualizer() {
@@ -109,10 +108,12 @@ function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
-    songTitle.textContent = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop();
     const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop();
-
+    songTitle.textContent = songName;
     loadLyricsForSong(songName); // Fetch lyrics for the current song
+
+    // Update active class in playlist
+    updateActiveTrack();
 }
 
 function playSong() {
@@ -160,6 +161,18 @@ themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("light-mode");
 });
 
+// Function to update the active track in the playlist
+function updateActiveTrack() {
+    const playlistItems = document.querySelectorAll('.playlist-item');
+    playlistItems.forEach((item, index) => {
+        item.classList.remove('active');
+        if (index === currentSongIndex) {
+            item.classList.add('active');
+            currentTrackElement = item;
+        }
+    });
+}
+
 // 🎵 Load songs dynamically from music folder
 window.musicAPI.getSongs().then(fileList => {
     // Pause any currently playing audio if applicable
@@ -193,7 +206,7 @@ window.musicAPI.getSongs().then(fileList => {
         playlistEl.appendChild(li);
     });
 
-    loadSong(); // Load the first song
+    loadSong(); // Load the first song and set active class
 });
 
 
@@ -259,10 +272,10 @@ async function loadLyricsForSong(songName) {
 
 // Function to add songs from a selected folder
 async function addSongsFromFolder() {
-     // Clear playlist and any active indicators
-     playlistEl.innerHTML = "";
-     songs = [];
-     
+    // Clear playlist and any active indicators
+    playlistEl.innerHTML = "";
+    songs = [];
+
     const newSongs = await window.musicAPI.selectFolder();
     if (newSongs.length === 0) {
         alert("No songs were added.");
@@ -283,13 +296,14 @@ async function addSongsFromFolder() {
         button.dataset.src = src;
         button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`; // Fallback to file name if format is invalid
         button.addEventListener("click", () => {
-            loadSong(fileName);
+            loadSong(index); // Use index here
             playSong();
         });
         li.appendChild(button);
         playlistEl.appendChild(li);
     });
 
+    loadSong(); // Load the first song and set active class
     alert(`${newSongs.length} songs added to the playlist.`);
 }
 
@@ -300,30 +314,30 @@ addFolderButton.addEventListener("click", () => {
 // Window control buttons
 document.getElementById('buttonred').addEventListener('click', () => {
     window.musicAPI.controlWindow('close');
-  });
-  
-  document.getElementById('buttonyellow').addEventListener('click', () => {
-    window.musicAPI.controlWindow('minimize');
-  });
-  
-  document.getElementById('buttongreen').addEventListener('click', () => {
-    window.musicAPI.controlWindow('maximize');
-  });
+});
 
-  // 🎚 Equalizer controls listeners
-  document.getElementById("bass").addEventListener("input", (e) => {
+document.getElementById('buttonyellow').addEventListener('click', () => {
+    window.musicAPI.controlWindow('minimize');
+});
+
+document.getElementById('buttongreen').addEventListener('click', () => {
+    window.musicAPI.controlWindow('maximize');
+});
+
+// 🎚 Equalizer controls listeners
+document.getElementById("bass").addEventListener("input", (e) => {
     bassEQ.gain.value = e.target.value;
-  });
-  
-  document.getElementById("mid").addEventListener("input", (e) => {
+});
+
+document.getElementById("mid").addEventListener("input", (e) => {
     midEQ.gain.value = e.target.value;
-  });
-  
-  document.getElementById("treble").addEventListener("input", (e) => {
+});
+
+document.getElementById("treble").addEventListener("input", (e) => {
     trebleEQ.gain.value = e.target.value;
-  });
-  
-  // 🎛 Handle media control events from Windows taskbar buttons
+});
+
+// 🎛 Handle media control events from Windows taskbar buttons
 window.musicAPI.onMediaControl((action) => {
     switch (action) {
         case 'previous':
