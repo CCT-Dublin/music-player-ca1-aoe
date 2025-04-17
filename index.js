@@ -52,19 +52,17 @@ ipcMain.handle('get-songs', async () => {
 // Allow folder selection
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog(win, {
-    properties: ['openDirectory']
+    properties: ['openFile', 'multiSelections'], // Allow selecting files and multiple selections
+    filters: [
+      { name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] } // Filter for audio files
+    ]
   });
 
   if (result.canceled) {
     return [];
   }
 
-  const selectedFolder = result.filePaths[0];
-  const files = fs.readdirSync(selectedFolder);
-
-  return files
-    .filter(file => file.match(/\.(mp3|wav|ogg)$/i))
-    .map(file => path.join(selectedFolder, file));
+  return result.filePaths; // Return the selected file paths
 });
 
 app.whenReady().then(() => {
