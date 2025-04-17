@@ -127,6 +127,12 @@ function loadSong(index = currentSongIndex) {
     audio.src = songs[currentSongIndex];
     const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
     songTitle.textContent = songName;
+
+        // Send alert to Electron main process
+        if (window.musicAPI.notifySong) {
+            window.musicAPI.notifySong(songName);
+        }
+        
     loadLyricsForSong(songName);
     updateActiveTrack();
 }
@@ -544,3 +550,11 @@ themeToggle.addEventListener('click', () => {
   // Save preference
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
+// Update song title and show notification  
+const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
+songTitle.textContent = songName;
+
+// Show system notification
+if (window.notifier && window.notifier.showSongNotification) {
+  window.notifier.showSongNotification("Now Playing", songName);
+}

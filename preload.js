@@ -11,5 +11,20 @@ contextBridge.exposeInMainWorld('musicAPI', {
     ipcRenderer.on('media-control', (event, action) => {
       callback(action);
     });
-  }
+  },
+
+  // Expose track change listener
+  onTrackChanged: (callback) => {
+    ipcRenderer.on('track-changed', (event, trackInfo) => {
+      callback(trackInfo);
+    });
+  },
+
+  // Expose track change event sender
+  changeTrack: (trackInfo) => {
+    ipcRenderer.send('track-changed', trackInfo);
+  },
+  
+  notifySong: (title) => ipcRenderer.send("notify-song", title)
 });
+
