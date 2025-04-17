@@ -943,3 +943,7 @@ input[type="range"]:hover {
 #playlist li {
   margin-bottom: 1px;
 }
+.control-btn.active {
+  color: var(--accent-color);
+  transform: scale(1.5);
+}
