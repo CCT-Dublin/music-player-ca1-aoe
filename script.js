@@ -125,7 +125,7 @@ function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
-    const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop();
+    const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
     songTitle.textContent = songName;
     loadLyricsForSong(songName);
     updateActiveTrack();
