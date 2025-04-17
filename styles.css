@@ -197,7 +197,7 @@ input[type="range"]:hover {
 #lyrics-display {
     -webkit-app-region: no-drag;
     pointer-events: auto;
-    background-color: rgba(0, 0, 0, 0.2);
+    /* background-color: rgba(0, 0, 0, 0.2); */
     color: lime;
     padding: 8px; /* Slightly smaller */
     margin-top: 10px; /* Slightly smaller */
@@ -206,7 +206,7 @@ input[type="range"]:hover {
     overflow-y: auto;
     border-radius: 5px;
     font-family: monospace;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
     font-size: 0.85rem; /* Slightly smaller */
 }
 
@@ -239,10 +239,10 @@ input[type="range"]:hover {
     background-color: #27c93f;
 }
 
-#lyrics-display::-webkit-scrollbar {
+/* #lyrics-display::-webkit-scrollbar { Scrollbar for Lyrics Display 
     display: initial;
-    width: 5px; /* Slightly smaller */
-}
+    width: 5px;
+} */
 
 #lyrics-display::-webkit-scrollbar-thumb {
     background-color: lime;
