@@ -1,19 +1,24 @@
 :root {
+    /* dark mode */
     --player-bg: linear-gradient(to bottom right, rgb(23, 36, 150), rgb(250, 157, 234));
   }
   body.dark {
+    /* light mode */
     --player-bg: linear-gradient(to bottom right, rgb(202, 46, 19), rgb(116, 4, 99));
   }
   
   /* Example of styling header or buttons using theme */
   #header {
-    
     background-color: var(--accent-color);
     padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease;
+  }
+  
+  #winamp-title{
+    color: #fff;
   }
   
   #theme-toggle {
@@ -27,6 +32,7 @@
   }
 
 body {
+    background-color: transparent;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
