@@ -449,3 +449,64 @@ function updateVolumeIcon(volume) {
 }
 
 updateVolumeIcon(audio.volume);
+
+// Audio Visualizer Script
+const canvas = document.getElementById('audio-visualizer');
+const canvasCtx = canvas.getContext('2d');
+
+// Resize canvas to fit container
+canvas.width = canvas.parentElement.offsetWidth;
+canvas.height = canvas.parentElement.offsetHeight;
+
+// Web Audio API setup
+const visualizerAnalyser = audioContext.createAnalyser();
+source.connect(visualizerAnalyser);
+visualizerAnalyser.connect(audioContext.destination);
+
+// Configure analyser
+visualizerAnalyser.fftSize = 256;
+const visualizerBufferLength = visualizerAnalyser.frequencyBinCount;
+const visualizerDataArray = new Uint8Array(visualizerBufferLength);
+
+// Draw visualizer
+function drawVisualizer() {
+  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+  visualizerAnalyser.getByteFrequencyData(visualizerDataArray);
+
+  const barWidth = (canvas.width / visualizerBufferLength) * 2.5;
+  let barHeight;
+  let x = 0;
+
+  for (let i = 0; i < visualizerBufferLength; i++) {
+    barHeight = visualizerDataArray[i];
+
+    const red = (barHeight + 100) % 255;
+    const green = (i * 5) % 255;
+    const blue = 200;
+
+    canvasCtx.fillStyle = `rgb(${red},${green},${blue})`;
+
+    // Draw bars extending both up and down from the middle
+    const centerY = canvas.height / 2;
+    canvasCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half
+    canvasCtx.fillRect(x, centerY, barWidth, barHeight / 2); // Bottom half
+
+    // Mirror the bars horizontally
+    const mirroredX = canvas.width - x - barWidth;
+    canvasCtx.fillRect(mirroredX, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half mirrored
+    canvasCtx.fillRect(mirroredX, centerY, barWidth, barHeight / 2); // Bottom half mirrored
+
+    x += barWidth + 1;
+  }
+
+  requestAnimationFrame(drawVisualizer);
+}
+
+// Start visualizer when audio plays
+audio.addEventListener('play', () => {
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  drawVisualizer();
+});
