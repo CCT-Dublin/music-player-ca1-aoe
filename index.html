@@ -19,7 +19,9 @@
 
     <!-- Header -->
     <header id="header">
-      <h1 id="winamp-title">Alutech</h1>
+      <h1 id="winamp-title">
+        <span id="song-title"></span>
+      </h1>
       <button id="theme-toggle"><i class="fa-solid fa-toggle-off"></i></button>
     </header>
 
@@ -71,12 +73,8 @@
 
       <!-- Lyrics Column -->
       <div id="lyrics-panel">
-        <div id="display">
-          <span id="song-title">No Song Playing</span>
-          <div id="song-time">00:00 / 00:00</div>
-        </div>
+
         <section id="lyrics-display">
-          <h3>Track Info</h3>
           <pre id="lyrics">Lyrics...</pre>
         </section>
       </div>
