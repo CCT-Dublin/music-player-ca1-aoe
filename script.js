@@ -335,17 +335,17 @@ async function loadLyricsForSong(songName) {
 
 // Add songs
 addFolderButton.addEventListener("click", async () => {
-    playlistEl.innerHTML = "";
-    songs = [];
-
     const newSongs = await window.musicAPI.selectFolder();
+
     if (!newSongs.length) {
-        alert("No songs were added.");
+        // alert("No songs were added.");
         return;
     }
 
-    songs = [...songs, ...newSongs];
     playlistEl.innerHTML = "";
+    songs = [];
+
+    songs = [...songs, ...newSongs];
 
     songs.forEach((src, index) => {
         const fileName = src.split('\\').pop();
@@ -367,8 +367,9 @@ addFolderButton.addEventListener("click", async () => {
 
     addDragAndDropListeners();
     loadSong();
-    alert(`${newSongs.length} songs added to the playlist.`);
+    // alert(`${newSongs.length} songs added to the playlist.`);
 });
+
 
 // Window buttons
 document.getElementById('buttonred').addEventListener('click', () => {
