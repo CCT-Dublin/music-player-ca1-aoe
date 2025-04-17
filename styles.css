@@ -1,3 +1,31 @@
+:root {
+    --player-bg: linear-gradient(to bottom right, rgb(23, 36, 150), rgb(250, 157, 234));
+  }
+  body.dark {
+    --player-bg: linear-gradient(to bottom right, rgb(202, 46, 19), rgb(116, 4, 99));
+  }
+  
+  /* Example of styling header or buttons using theme */
+  #header {
+    
+    background-color: var(--accent-color);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  #theme-toggle {
+    -webkit-app-region: no-drag;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -12,14 +40,15 @@ body {
 
 .player-container {
     -webkit-app-region: drag;
-    background-image: linear-gradient(to bottom right, rgb(23, 36, 150), rgb(250, 157, 234));
+    background-image: var(--player-bg);
     width: 1000px;
     height: 700px;
     padding: 20px;
     border-radius: 20px;
-    color: #ffffff;
-}
-
+    color: var(--text-color);
+    transition: background-image 0.3s ease;
+  }
+  
 /* Header */
 #header {
     -webkit-app-region: drag;
@@ -30,25 +59,6 @@ body {
     border-radius: 3px;
     display: flex;
     justify-content: space-between;
-}
-
-/* Theme Toggle Switch */
-.theme-switch-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.theme-switch {
-    position: relative;
-    display: inline-block;
-    width: 35px; /* Slightly smaller */
-    height: 18px; /* Slightly smaller */
-}
-
-.theme-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
 }
 
 .slider {

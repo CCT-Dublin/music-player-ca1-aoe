@@ -510,3 +510,24 @@ audio.addEventListener('play', () => {
   }
   drawVisualizer();
 });
+
+const icon = themeToggle.querySelector('i');
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+  icon.classList.remove('fa-toggle-off');
+  icon.classList.add('fa-toggle-on');
+}
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+
+  // Update icon
+  icon.classList.toggle('fa-toggle-on', isDark);
+  icon.classList.toggle('fa-toggle-off', !isDark);
+
+  // Save preference
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
