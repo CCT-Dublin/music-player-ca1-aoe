@@ -66,25 +66,29 @@ let currentSongIndex = 0;
 let currentTrackElement = null;
 let isPlaying = false;
 
-// Timer
-window.addEventListener('DOMContentLoaded', () => {
-    const songTime = document.getElementById('song-time');
+// Timer actualizado para current-time y total-duration
+const currentTimeEl = document.getElementById("current-time");
+const totalDurationEl = document.getElementById("total-duration");
 
-    const formatTime = (sec) => {
-        const m = Math.floor(sec / 60).toString().padStart(2, '0');
-        const s = Math.floor(sec % 60).toString().padStart(2, '0');
-        return `${m}:${s}`;
-    };
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
 
-    const updateTime = () => {
-        if (!isNaN(audio.duration)) {
-            songTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-            seekBar.max = audio.duration;
-            seekBar.value = audio.currentTime;
-        }
-    };
+audio.addEventListener("loadedmetadata", () => {
+    if (!isNaN(audio.duration)) {
+        totalDurationEl.textContent = formatTime(audio.duration);
+    }
+});
 
-    audio.addEventListener('timeupdate', updateTime);
+audio.addEventListener("timeupdate", () => {
+    if (!isNaN(audio.currentTime)) {
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+    }
+
+    seekBar.max = audio.duration;
+    seekBar.value = audio.currentTime;
 });
 
 // Equalizer animation
@@ -186,11 +190,6 @@ audio.addEventListener("ended", () => {
 });
 
 // Seek & volume
-audio.addEventListener("timeupdate", () => {
-    seekBar.max = audio.duration;
-    seekBar.value = audio.currentTime;
-});
-
 seekBar.addEventListener("input", () => {
     audio.currentTime = seekBar.value;
 });
