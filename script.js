@@ -235,16 +235,12 @@ window.musicAPI.getSongs().then(fileList => {
         button.classList.add("playlist-item");
         button.dataset.src = src;
         button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`;
-        button.addEventListener("click", () => {
-            loadSong(index);
-            playSong();
-        });
-
         li.appendChild(button);
         playlistEl.appendChild(li);
     });
 
     addDragAndDropListeners();
+    updatePlaylistEventListeners(); // Ensure click listeners are assigned
     loadSong();
 });
 
@@ -269,17 +265,34 @@ function addDragAndDropListeners() {
             li.style.borderTop = "";
             if (draggedItemIndex === index) return;
 
+            // Update the songs array
             const dragged = songs[draggedItemIndex];
             songs.splice(draggedItemIndex, 1);
             songs.splice(index, 0, dragged);
 
+            // Update the playlist DOM
             const draggedEl = playlistEl.children[draggedItemIndex];
             playlistEl.removeChild(draggedEl);
             playlistEl.insertBefore(draggedEl, playlistEl.children[index]);
 
+            // Reassign click event listeners to reflect the new order
+            updatePlaylistEventListeners();
+
             updateActiveTrack();
             addDragAndDropListeners(); // Reattach listeners
         });
+    });
+}
+
+function updatePlaylistEventListeners() {
+    const playlistItems = document.querySelectorAll(".playlist-item");
+    playlistItems.forEach((item, index) => {
+        item.removeEventListener("click", item._clickHandler); // Remove the old event listener
+        item._clickHandler = () => {
+            loadSong(index);
+            playSong();
+        };
+        item.addEventListener("click", item._clickHandler); // Add the updated event listener
     });
 }
 
