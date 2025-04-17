@@ -261,14 +261,13 @@ input[type="range"]:hover {
 #playlist-panel,
 #equalizer-panel,
 #lyrics-panel {
-  -webkit-app-region: no-drag;
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 8px; /* Slightly smaller */
-  border-radius: 8px; /* Slightly smaller */
   display: flex;
   flex-direction: column;
-  height: 450px; /* Slightly smaller */
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 8px;
+  height: 450px;
   overflow: hidden;
 }
 
@@ -631,7 +630,8 @@ input[type="range"]:hover {
     color: lime;
     padding: 8px; /* Slightly smaller */
     margin-top: 10px; /* Slightly smaller */
-    max-height: 120px; /* Slightly smaller */
+    flex-grow: 1;
+    max-height: none; /* Slightly smaller */
     overflow-y: auto;
     border-radius: 5px;
     font-family: monospace;
