@@ -947,3 +947,17 @@ input[type="range"]:hover {
   color: var(--accent-color);
   transform: scale(1.5);
 }
+#playlist li {
+  cursor: grab;
+  user-select: none;
+  padding: 8px;
+  transition: background-color 0.2s;
+}
+
+#playlist li.dragging {
+  opacity: 0.5;
+}
+
+#playlist li.dragover {
+  border-top: 2px solid #4af;
+}
