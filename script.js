@@ -281,11 +281,23 @@ function addDragAndDropListeners() {
             playlistEl.removeChild(draggedEl);
             playlistEl.insertBefore(draggedEl, playlistEl.children[index]);
 
+            // Update the current song index if the currently playing song was moved
+            if (draggedItemIndex === currentSongIndex) {
+                currentSongIndex = index;
+            } else if (draggedItemIndex < currentSongIndex && index >= currentSongIndex) {
+                currentSongIndex -= 1;
+            } else if (draggedItemIndex > currentSongIndex && index <= currentSongIndex) {
+                currentSongIndex += 1;
+            }
+
             // Reassign click event listeners to reflect the new order
             updatePlaylistEventListeners();
 
+            // Update the active track highlight
             updateActiveTrack();
-            addDragAndDropListeners(); // Reattach listeners
+
+            // Reattach drag-and-drop listeners
+            addDragAndDropListeners();
         });
     });
 }
