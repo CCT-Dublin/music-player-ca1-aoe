@@ -163,7 +163,7 @@ function nextSong() {
     playNextSong();
 }
 
-// New next song logic with shuffle and repeat
+// Updated playNextSong function
 function playNextSong() {
     const items = [...document.querySelectorAll(".playlist-item")];
     let currentIndex = items.findIndex(btn => btn.classList.contains("playing"));
@@ -177,9 +177,9 @@ function playNextSong() {
         nextIndex = currentIndex + 1;
         if (nextIndex >= items.length) {
             if (isRepeat) {
-                nextIndex = 0;
+                nextIndex = 0; // Loop back to the first song
             } else {
-                return;
+                return; // Stop if no repeat
             }
         }
     }
@@ -190,7 +190,11 @@ function playNextSong() {
 }
 
 audio.addEventListener("ended", () => {
-    if (isRepeat || isShuffle || currentSongIndex < songs.length - 1) {
+    if (isRepeat) {
+        // Replay the current song
+        audio.currentTime = 0;
+        audio.play();
+    } else if (isShuffle || currentSongIndex < songs.length - 1) {
         playNextSong();
     }
 });
