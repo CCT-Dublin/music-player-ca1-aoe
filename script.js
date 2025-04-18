@@ -354,7 +354,7 @@ async function loadLyricsForSong(songName) {
     const [artist, title] = songName.replace('.mp3', '').split(' - ').map(part => part.trim());
 
     if (!artist || !title) {
-        lyricsDisplay.textContent = "Unable to fetch lyrics. Invalid song format.";
+        lyricsDisplay.textContent = "Unable to fetch lyrics. \nInvalid song format.";
         return;
     }
 
@@ -364,7 +364,7 @@ async function loadLyricsForSong(songName) {
         const data = await response.json();
         lyricsDisplay.textContent = data.lyrics || "No lyrics available.";
     } catch (error) {
-        lyricsDisplay.textContent = "No lyrics available online or external API error";
+        lyricsDisplay.textContent = "No lyrics available online or \nexternal API error";
     }
 }
 
