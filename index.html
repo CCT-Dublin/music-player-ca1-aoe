@@ -13,10 +13,17 @@
     
     <!-- Window Controls -->
     <div class="window-controls">
-      <button class="window-button red" id="buttonred"></button>
-      <button class="window-button yellow" id="buttonyellow"></button>
-      <button class="window-button green" id="buttongreen"></button>
+      <button class="window-button red" id="buttonred">
+        <span class="icon"><i class="fa-solid fa-xmark"></i></span>
+      </button>
+      <button class="window-button yellow" id="buttonyellow">
+        <span class="icon"><i class="fa-solid fa-minus"></i></span>
+      </button>
+      <button class="window-button green" id="buttongreen">
+        <span class="icon"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+      </button>
     </div>
+    
 
     <!-- Header -->
     <header id="header">
@@ -43,11 +50,11 @@
       <div id="equalizer-panel">
         
         <!-- Replace the Equalizer Section -->
-<div id="equalizer-panel">
-  <section id="visualizer">
-    <canvas id="audio-visualizer"></canvas>
-  </section>
-</div>
+        <div id="equalizer-panel">
+          <section id="visualizer">
+            <canvas id="audio-visualizer"></canvas>
+          </section>
+        </div>
         <section id="equalizer-controls">
             <h4>Equalizer</h4>
             <div class="eq-slider">
