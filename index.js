@@ -78,6 +78,26 @@ ipcMain.on('track-changed', (event, trackInfo) => {
   notification.show();
 });
 
+ipcMain.on('playback-state-changed', (event, isPlaying) => {
+  win.setThumbarButtons([
+    {
+      tooltip: 'Previous',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'prev.png')),
+      click: () => win.webContents.send('media-control', 'previous')
+    },
+    {
+      tooltip: isPlaying ? 'Pause' : 'Play',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'assets', isPlaying ? 'pause.png' : 'play.png')),
+      click: () => win.webContents.send('media-control', 'play-pause')
+    },
+    {
+      tooltip: 'Next',
+      icon: nativeImage.createFromPath(path.join(__dirname, 'assets', 'next.png')),
+      click: () => win.webContents.send('media-control', 'next')
+    }
+  ]);
+});
+
 app.whenReady().then(() => {
   createWindow();
 
