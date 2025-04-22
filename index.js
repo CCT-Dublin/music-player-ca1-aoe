@@ -21,6 +21,8 @@ const createWindow = () => {
 
   win.loadFile('index.html');
 
+  // win.webContents.openDevTools(); // for dev tools
+
   // --- Add media control buttons to Windows taskbar ---
   win.setThumbarButtons([
     {
@@ -117,3 +119,4 @@ ipcMain.on("notify-song", (event, title) => {
     silent: true
   }).show();
 });
+
