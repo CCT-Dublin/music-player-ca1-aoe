@@ -250,7 +250,7 @@ input[type="range"]:hover {
   .window-button .icon {
     position: absolute;
     font-size: 10px;
-    color: white;
+    color: rgb(16, 15, 15);
     opacity: 0;
     transition: opacity 0.2s ease;
   }
