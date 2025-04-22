@@ -221,7 +221,8 @@ input[type="range"]:hover {
     overflow-y: auto;
     border-radius: 5px;
     font-family: monospace;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    font-weight: bold;
 
     white-space: pre-wrap;         /* Preserve line breaks, allow wrapping */
     word-wrap: break-word;         /* For long words */
