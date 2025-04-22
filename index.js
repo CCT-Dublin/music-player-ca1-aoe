@@ -7,7 +7,7 @@ let win;
 const createWindow = () => {
   win = new BrowserWindow({
     width: 1000,
-    height: 850,
+    height: 630,
     frame: false,
     resizable: true,
     transparent: true,
