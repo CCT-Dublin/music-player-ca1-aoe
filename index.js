@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, nativeImage, Notification } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -39,7 +39,6 @@ const createWindow = () => {
       click: () => win.webContents.send('media-control', 'next')
     }
   ]);
-  
 };
 
 // Handle file loading from the music folder
@@ -52,23 +51,40 @@ ipcMain.handle('get-songs', async () => {
 // Allow folder selection
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog(win, {
-    properties: ['openDirectory']
+    properties: ['openFile', 'multiSelections'], // Allow selecting files and multiple selections
+    filters: [
+      { name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] } // Filter for audio files
+    ]
   });
 
   if (result.canceled) {
     return [];
   }
 
-  const selectedFolder = result.filePaths[0];
-  const files = fs.readdirSync(selectedFolder);
+  return result.filePaths; // Return the selected file paths
+});
 
-  return files
-    .filter(file => file.match(/\.(mp3|wav|ogg)$/i))
-    .map(file => path.join(selectedFolder, file));
+// Listen for track change event and send notification
+ipcMain.on('track-changed', (event, trackInfo) => {
+  // Create and show the notification
+  const notification = new Notification({
+    title: 'Track Changed',
+    body: `Now playing: ${trackInfo.title} by ${trackInfo.artist}`,
+    icon: path.join(__dirname, 'image/logo.png') // Optional: Customize the icon
+  });
+
+  notification.show();
 });
 
 app.whenReady().then(() => {
   createWindow();
+
+  // Listen for app events (e.g., focus on the app window)
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
 });
 
 // Custom window controls
@@ -86,4 +102,18 @@ ipcMain.on('window-control', (event, action) => {
       win.isMaximized() ? win.restore() : win.maximize();
       break;
   }
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+ipcMain.on("notify-song", (event, title) => {
+  new Notification({
+    title: "Now Playing",
+    body: title,
+    silent: true
+  }).show();
 });

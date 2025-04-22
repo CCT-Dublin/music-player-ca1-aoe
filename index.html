@@ -6,20 +6,30 @@
   <title>Alutech Music Player</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://kit.fontawesome.com/27fe0181dd.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <div class="player-container">
     
     <!-- Window Controls -->
     <div class="window-controls">
-      <button class="window-button red" id="buttonred"></button>
-      <button class="window-button yellow" id="buttonyellow"></button>
-      <button class="window-button green" id="buttongreen"></button>
+      <button class="window-button red" id="buttonred">
+        <span class="icon"><i class="fa-solid fa-xmark"></i></span>
+      </button>
+      <button class="window-button yellow" id="buttonyellow">
+        <span class="icon"><i class="fa-solid fa-minus"></i></span>
+      </button>
+      <button class="window-button green" id="buttongreen">
+        <span class="icon"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+      </button>
     </div>
+    
 
     <!-- Header -->
     <header id="header">
-      <h1 id="winamp-title">Alutech</h1>
+      <h1 id="winamp-title">
+        <span id="song-title"></span>
+      </h1>
       <button id="theme-toggle"><i class="fa-solid fa-toggle-off"></i></button>
     </header>
 
@@ -39,19 +49,12 @@
       <!-- Equalizer Column -->
       <div id="equalizer-panel">
         
-        <section id="equalizer">
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-        </section>
+        <!-- Replace the Equalizer Section -->
+        <div id="equalizer-panel">
+          <section id="visualizer">
+            <canvas id="audio-visualizer"></canvas>
+          </section>
+        </div>
         <section id="equalizer-controls">
             <h4>Equalizer</h4>
             <div class="eq-slider">
@@ -66,17 +69,13 @@
               <label for="treble">Treble</label>
               <input type="range" id="treble" min="-30" max="30" value="0">
             </div>
-          </section>          
+        </section>
       </div>
 
       <!-- Lyrics Column -->
       <div id="lyrics-panel">
-        <div id="display">
-          <span id="song-title">No Song Playing</span>
-          <div id="song-time">00:00 / 00:00</div>
-        </div>
+
         <section id="lyrics-display">
-          <h3>Track Info</h3>
           <pre id="lyrics">Lyrics...</pre>
         </section>
       </div>
@@ -107,7 +106,7 @@
       <!-- Folder Button -->
       <section id="folder-controls">
         <button id="add-folder" class="control-btn" aria-label="Add Folder">
-          <i class="fa-solid fa-folder-plus"></i> Add Folder
+          <i class="fa-solid fa-folder-plus"></i>
         </button>
       </section>
 

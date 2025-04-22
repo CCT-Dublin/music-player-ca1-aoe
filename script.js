@@ -125,8 +125,14 @@ function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
     audio.src = songs[currentSongIndex];
-    const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop();
+    const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
     songTitle.textContent = songName;
+
+        // Send alert to Electron main process
+        if (window.musicAPI.notifySong) {
+            window.musicAPI.notifySong(songName);
+        }
+        
     loadLyricsForSong(songName);
     updateActiveTrack();
 }
@@ -157,7 +163,7 @@ function nextSong() {
     playNextSong();
 }
 
-// New next song logic with shuffle and repeat
+// Updated playNextSong function
 function playNextSong() {
     const items = [...document.querySelectorAll(".playlist-item")];
     let currentIndex = items.findIndex(btn => btn.classList.contains("playing"));
@@ -171,9 +177,9 @@ function playNextSong() {
         nextIndex = currentIndex + 1;
         if (nextIndex >= items.length) {
             if (isRepeat) {
-                nextIndex = 0;
+                nextIndex = 0; // Loop back to the first song
             } else {
-                return;
+                return; // Stop if no repeat
             }
         }
     }
@@ -184,7 +190,11 @@ function playNextSong() {
 }
 
 audio.addEventListener("ended", () => {
-    if (isRepeat || isShuffle || currentSongIndex < songs.length - 1) {
+    if (isRepeat) {
+        // Replay the current song
+        audio.currentTime = 0;
+        audio.play();
+    } else if (isShuffle || currentSongIndex < songs.length - 1) {
         playNextSong();
     }
 });
@@ -235,16 +245,12 @@ window.musicAPI.getSongs().then(fileList => {
         button.classList.add("playlist-item");
         button.dataset.src = src;
         button.textContent = artist && title ? `🎵 ${artist} - ${title}` : `🎵 ${fileName}`;
-        button.addEventListener("click", () => {
-            loadSong(index);
-            playSong();
-        });
-
         li.appendChild(button);
         playlistEl.appendChild(li);
     });
 
     addDragAndDropListeners();
+    updatePlaylistEventListeners(); // Ensure click listeners are assigned
     loadSong();
 });
 
@@ -269,17 +275,46 @@ function addDragAndDropListeners() {
             li.style.borderTop = "";
             if (draggedItemIndex === index) return;
 
+            // Update the songs array
             const dragged = songs[draggedItemIndex];
             songs.splice(draggedItemIndex, 1);
             songs.splice(index, 0, dragged);
 
+            // Update the playlist DOM
             const draggedEl = playlistEl.children[draggedItemIndex];
             playlistEl.removeChild(draggedEl);
             playlistEl.insertBefore(draggedEl, playlistEl.children[index]);
 
+            // Update the current song index if the currently playing song was moved
+            if (draggedItemIndex === currentSongIndex) {
+                currentSongIndex = index;
+            } else if (draggedItemIndex < currentSongIndex && index >= currentSongIndex) {
+                currentSongIndex -= 1;
+            } else if (draggedItemIndex > currentSongIndex && index <= currentSongIndex) {
+                currentSongIndex += 1;
+            }
+
+            // Reassign click event listeners to reflect the new order
+            updatePlaylistEventListeners();
+
+            // Update the active track highlight
             updateActiveTrack();
-            addDragAndDropListeners(); // Reattach listeners
+
+            // Reattach drag-and-drop listeners
+            addDragAndDropListeners();
         });
+    });
+}
+
+function updatePlaylistEventListeners() {
+    const playlistItems = document.querySelectorAll(".playlist-item");
+    playlistItems.forEach((item, index) => {
+        item.removeEventListener("click", item._clickHandler); // Remove the old event listener
+        item._clickHandler = () => {
+            loadSong(index);
+            playSong();
+        };
+        item.addEventListener("click", item._clickHandler); // Add the updated event listener
     });
 }
 
@@ -319,7 +354,7 @@ async function loadLyricsForSong(songName) {
     const [artist, title] = songName.replace('.mp3', '').split(' - ').map(part => part.trim());
 
     if (!artist || !title) {
-        lyricsDisplay.textContent = "Unable to fetch lyrics. Invalid song format.";
+        lyricsDisplay.textContent = "Unable to fetch lyrics. \nInvalid song format.";
         return;
     }
 
@@ -329,23 +364,23 @@ async function loadLyricsForSong(songName) {
         const data = await response.json();
         lyricsDisplay.textContent = data.lyrics || "No lyrics available.";
     } catch (error) {
-        lyricsDisplay.textContent = "No lyrics available online or external API error";
+        lyricsDisplay.textContent = "No lyrics available online or \nexternal API error";
     }
 }
 
 // Add songs
 addFolderButton.addEventListener("click", async () => {
-    playlistEl.innerHTML = "";
-    songs = [];
-
     const newSongs = await window.musicAPI.selectFolder();
+
     if (!newSongs.length) {
-        alert("No songs were added.");
+        // alert("No songs were added.");
         return;
     }
 
-    songs = [...songs, ...newSongs];
     playlistEl.innerHTML = "";
+    songs = [];
+
+    songs = [...songs, ...newSongs];
 
     songs.forEach((src, index) => {
         const fileName = src.split('\\').pop();
@@ -367,8 +402,9 @@ addFolderButton.addEventListener("click", async () => {
 
     addDragAndDropListeners();
     loadSong();
-    alert(`${newSongs.length} songs added to the playlist.`);
+    // alert(`${newSongs.length} songs added to the playlist.`);
 });
+
 
 // Window buttons
 document.getElementById('buttonred').addEventListener('click', () => {
@@ -448,3 +484,93 @@ function updateVolumeIcon(volume) {
 }
 
 updateVolumeIcon(audio.volume);
+
+// Audio Visualizer Script
+const canvas = document.getElementById('audio-visualizer');
+const canvasCtx = canvas.getContext('2d');
+
+// Resize canvas to fit container
+canvas.width = canvas.parentElement.offsetWidth;
+canvas.height = canvas.parentElement.offsetHeight;
+
+// Web Audio API setup
+const visualizerAnalyser = audioContext.createAnalyser();
+source.connect(visualizerAnalyser);
+visualizerAnalyser.connect(audioContext.destination);
+
+// Configure analyser
+visualizerAnalyser.fftSize = 256;
+const visualizerBufferLength = visualizerAnalyser.frequencyBinCount;
+const visualizerDataArray = new Uint8Array(visualizerBufferLength);
+
+// Draw visualizer
+function drawVisualizer() {
+  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+  visualizerAnalyser.getByteFrequencyData(visualizerDataArray);
+
+  const barWidth = (canvas.width / visualizerBufferLength) * 2.5;
+  let barHeight;
+  let x = 0;
+
+  for (let i = 0; i < visualizerBufferLength; i++) {
+    barHeight = visualizerDataArray[i];
+
+    const red = (barHeight + 100) % 255;
+    const green = (i * 5) % 255;
+    const blue = 200;
+
+    canvasCtx.fillStyle = `rgb(${red},${green},${blue})`;
+
+    // Draw bars extending both up and down from the middle
+    const centerY = canvas.height / 2;
+    canvasCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half
+    canvasCtx.fillRect(x, centerY, barWidth, barHeight / 2); // Bottom half
+
+    // Mirror the bars horizontally
+    const mirroredX = canvas.width - x - barWidth;
+    canvasCtx.fillRect(mirroredX, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half mirrored
+    canvasCtx.fillRect(mirroredX, centerY, barWidth, barHeight / 2); // Bottom half mirrored
+
+    x += barWidth + 1;
+  }
+
+  requestAnimationFrame(drawVisualizer);
+}
+
+// Start visualizer when audio plays
+audio.addEventListener('play', () => {
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  drawVisualizer();
+});
+
+const icon = themeToggle.querySelector('i');
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+  icon.classList.remove('fa-toggle-off');
+  icon.classList.add('fa-toggle-on');
+}
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+
+  // Update icon
+  icon.classList.toggle('fa-toggle-on', isDark);
+  icon.classList.toggle('fa-toggle-off', !isDark);
+
+  // Save preference
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+// Update song title and show notification  
+const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
+songTitle.textContent = songName;
+
+// Show system notification
+if (window.notifier && window.notifier.showSongNotification) {
+  window.notifier.showSongNotification("Now Playing", songName);
+}
