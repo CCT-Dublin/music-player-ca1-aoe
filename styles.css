@@ -213,18 +213,28 @@ input[type="range"]:hover {
 #lyrics-display {
     -webkit-app-region: no-drag;
     pointer-events: auto;
-    /* background-color: rgba(0, 0, 0, 0.2); */
     color: lime;
-    padding: 8px; /* Slightly smaller */
-    margin-top: 10px; /* Slightly smaller */
+    padding: 8px;
+    margin-top: 10px;
     flex-grow: 1;
-    max-height: none; /* Slightly smaller */
+    max-height: none;
     overflow-y: auto;
     border-radius: 5px;
     font-family: monospace;
-    /* scroll-behavior: smooth; */
-    font-size: 0.85rem; /* Slightly smaller */
+    font-size: 0.85rem;
+
+    white-space: pre-wrap;         /* Preserve line breaks, allow wrapping */
+    word-wrap: break-word;         /* For long words */
+    overflow-wrap: break-word;     /* Fallback for modern browsers */
+    word-break: break-word;        /* Break anywhere if needed */
+
+    display: block;                /* Make sure it's not inline or flex-row */
+    width: 100%;                   /* Force it to match parent width */
+    box-sizing: border-box;        /* Padding doesn’t mess up width */
 }
+
+
+
 
 .window-controls {
     -webkit-app-region: no-drag;
