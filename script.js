@@ -413,9 +413,7 @@ document.getElementById('buttonred').addEventListener('click', () => {
 document.getElementById('buttonyellow').addEventListener('click', () => {
     window.musicAPI.controlWindow('minimize');
 });
-document.getElementById('buttongreen').addEventListener('click', () => {
-    window.musicAPI.controlWindow('maximize');
-});
+
 
 // EQ sliders
 document.getElementById("bass").addEventListener("input", (e) => {
@@ -567,7 +565,9 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 // Update song title and show notification  
-const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
+const songPath = songs[currentSongIndex] || '';
+const songName = songPath.replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
+
 songTitle.textContent = songName;
 
 // Show system notification
