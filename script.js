@@ -141,10 +141,12 @@ function playSong() {
     if (!audio.src) loadSong();
     audio.play();
     startEqualizer();
+    window.musicAPI.controlMedia('playback-state-changed', true); // Notify main process
 }
 
 function pauseSong() {
     audio.pause();
+    window.musicAPI.controlMedia('playback-state-changed', false); // Notify main process
 }
 
 function stopSong() {
