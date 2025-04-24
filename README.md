@@ -61,9 +61,9 @@ By adjusting these sliders, you can customize the audio output to your preferenc
 
 The window controls are located at the top-left of the application window.
 
-* **Minimize:** Click the minimize icon (🗕) to hide the application in the taskbar without closing it.
+* **Minimize:** Click the yellow button :yellow_circle: to hide the application in the taskbar without closing it.
 
-* **Close:** The close icon (❌) exits the application.
+* **Close:** The red button :red_circle: exits the application.
   
 ## 6. Light/Dark Mode
 
