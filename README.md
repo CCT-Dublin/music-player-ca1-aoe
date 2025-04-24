@@ -34,6 +34,7 @@ The playlist is displayed in the left section of the application window.
 
 * **Viewing the Playlist:** The list shows all the songs that are currently loaded into the player. You can scroll through the list to see all available tracks.
 * **Selecting a Song:** To play a specific song, simply click on its title in the playlist. The selected song will be highlighted (e.g., "Black Eyed Peas - Meet Me Halfway" in the screenshot) and playback will begin (or resume if paused).
+* **Changing the Playlist Order:** To change the order of the playlist, simply drag that needs to be moved and drop it in a desired location.
 
 ## 3. Lyrics Display
 
