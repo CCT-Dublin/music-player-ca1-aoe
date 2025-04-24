@@ -24,7 +24,7 @@ The playback controls are located at the bottom of the application window.
 * **Play/Pause:** The central button with the play ($\blacktriangleright$) or pause ($\pause$) icon toggles the playback of the currently selected song.
 * **Next/Previous Track:** The buttons with the next ($\blacktriangleright\!\!\!\!\blacktriangleright$) and previous ($\blacktriangleleft\!\!\!\!\blacktriangleleft$) icons allow you to navigate to the next or previous song in the playlist, respectively.
 * **Shuffle:** The shuffle button ($\shuffle$) randomizes the order in which songs from the playlist are played.
-* **Repeat:** The repeat button ($\repeat$) allows you to loop the current song or the entire playlist. Toggling this button cycles through different repeat modes (e.g., no repeat, repeat current song, repeat playlist).
+* **Repeat:** The repeat button ($\repeat$) allows you to loop the current song. Toggling this button cycles through repeating the single song or disabling the repeat.
 * **Progress Bar:** The horizontal bar with the current playback time (e.g., `0:08`) and total duration (e.g., `4:44`) allows you to see the current position in the song. You can click or drag the indicator on the bar to jump to a specific point in the track.
 * **Volume Control:** The speaker icon ($\volumeup$) and the slider next to it control the volume of the audio output. You can adjust the volume by dragging the slider. Clicking the speaker icon may mute or unmute the audio.
 
