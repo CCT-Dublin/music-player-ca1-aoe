@@ -4,6 +4,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('musicAPI', {
   controlMedia: (action, state) => ipcRenderer.send(action, state),
   controlWindow: (action) => ipcRenderer.send('window-control', action),
+  // shrinkWindow: () => ipcRenderer.send('window-control', 'shrink'),
 
 
   getSongs: () => ipcRenderer.invoke('get-songs'),

@@ -7,7 +7,7 @@ let win;
 const createWindow = () => {
   win = new BrowserWindow({
     width: 1000,
-    height: 630,
+    height: 690,
     frame: false,
     resizable: true,
     transparent: true,
@@ -109,7 +109,11 @@ app.whenReady().then(() => {
   });
 });
 
-// Custom window controls
+// Minicontrol minimized windows
+
+let isCustomMaximized = false; // track state
+let originalBounds; // store original window bounds
+
 ipcMain.on('window-control', (event, action) => {
   if (!win) return;
 
@@ -117,14 +121,25 @@ ipcMain.on('window-control', (event, action) => {
     case 'close':
       win.close();
       break;
+
     case 'minimize':
       win.minimize();
       break;
+
     case 'maximize':
-      win.isMaximized() ? win.restore() : win.maximize();
+      if (!isCustomMaximized) {
+        originalBounds = win.getBounds(); // Save original size/position
+        win.setSize(600, 110);            // Custom "maximized" size
+        // win.center();                     // Optional: center the window
+        isCustomMaximized = true;
+      } else {
+        win.setBounds(originalBounds);   // Restore original size/position
+        isCustomMaximized = false;
+      }
       break;
   }
 });
+
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

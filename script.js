@@ -415,7 +415,15 @@ document.getElementById('buttonred').addEventListener('click', () => {
 document.getElementById('buttonyellow').addEventListener('click', () => {
     window.musicAPI.controlWindow('minimize');
 });
-
+document.getElementById('buttongreen').addEventListener('click', () => {
+    window.musicAPI.controlWindow('maximize');
+});
+document.getElementById('buttongreen').addEventListener('click', () => {
+    window.musicAPI.controlWindow('shrink');
+});/// ======= here =======
+document.getElementById("buttongreen").addEventListener("click", () => {
+    document.querySelector(".player-container").classList.toggle("compact");
+});
 
 // EQ sliders
 document.getElementById("bass").addEventListener("input", (e) => {
