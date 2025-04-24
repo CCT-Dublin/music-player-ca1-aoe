@@ -40,7 +40,7 @@ The playlist is displayed in the left section of the application window.
 
 The lyrics for the currently playing song are displayed in the right section of the application window.
 
-* As the song plays, the lyrics will scroll automatically, highlighting the currently sung words (this feature may depend on the availability of lyrics for the specific song).
+* As the song plays, the lyrics can be viewed and scrolled down to show more (this feature may depend on the availability of lyrics for the specific song).
 
 ## 4. Equalizer
 
