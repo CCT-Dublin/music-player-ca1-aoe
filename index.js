@@ -6,8 +6,8 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    width: 1000,
-    height: 690,
+    width: 950,
+    height: 715,
     frame: false,
     resizable: true,
     transparent: true,
@@ -129,7 +129,7 @@ ipcMain.on('window-control', (event, action) => {
     case 'maximize':
       if (!isCustomMaximized) {
         originalBounds = win.getBounds(); // Save original size/position
-        win.setSize(600, 110);            // Custom "maximized" size
+        win.setSize(600, 150);            // Custom "maximized" size
         // win.center();                     // Optional: center the window
         isCustomMaximized = true;
       } else {
@@ -139,7 +139,6 @@ ipcMain.on('window-control', (event, action) => {
       break;
   }
 });
-
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
