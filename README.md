@@ -26,7 +26,7 @@ The playback controls are located at the bottom of the application window.
 * **Shuffle:** The shuffle button ($\shuffle$) randomizes the order in which songs from the playlist are played.
 * **Repeat:** The repeat button ($\repeat$) allows you to loop the current song. Toggling this button cycles through repeating the single song or disabling the repeat.
 * **Progress Bar:** The horizontal bar with the current playback time (e.g., `0:08`) and total duration (e.g., `4:44`) allows you to see the current position in the song. You can click or drag the indicator on the bar to jump to a specific point in the track.
-* **Volume Control:** The speaker icon ($\volumeup$) and the slider next to it control the volume of the audio output. You can adjust the volume by dragging the slider. Clicking the speaker icon will mute or unmute the audio.
+* **Volume Control:** The speaker icon (:loud_sound:) and the slider next to it control the volume of the audio output. You can adjust the volume by dragging the slider. Clicking the speaker icon will mute (:mute:)or unmute the audio.
 
 ## 2. Playlist Management
 
