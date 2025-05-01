@@ -3,10 +3,12 @@ Please follow the below steps to run the Alutech Media Player as a user.
 1. **Follow the below link to download the .EXE file**
 
    *This site is hosted by AWS and stored in a S3 storage for security and reliability [Click here to download](https://staging.d33ssjppa4n7wl.amplifyapp.com/).*
-2. **Run the .EXE file**
+
+   *The .EXE file was generated using Electron Forge*
+3. **Run the .EXE file**
 
    *After downloading the file, run the .EXE file to get the Media Player open.*
-3. **Add songs and music**
+4. **Add songs and music**
 
    *Click the add files button on the bottom-left of the window to add your favourite songs and music.*
 
