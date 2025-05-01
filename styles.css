@@ -1,27 +1,32 @@
+/* Define root variables for dark and light mode themes */
 :root {
     /* dark mode */
     --player-bg: linear-gradient(to bottom right, rgb(23, 36, 150), rgb(250, 157, 234));
-  }
-  body.dark {
+}
+
+/* Define light mode theme */
+body.dark {
     /* light mode */
     --player-bg: linear-gradient(to bottom right, rgb(202, 46, 19), rgb(116, 4, 99));
-  }
-  
-  /* Example of styling header or buttons using theme */
-  #header {
+}
+
+/* Header styling */
+#header {
     background-color: var(--accent-color);
     padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: background-color 0.1s ease;
-  }
-  
-  #winamp-title{
+}
+
+/* Styling for the title in the header */
+#winamp-title {
     color: #fff;
-  }
-  
-  #theme-toggle {
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
     -webkit-app-region: no-drag;
     font-size: 1.5rem;
     background: none;
@@ -29,22 +34,24 @@
     color: var(--text-color);
     cursor: pointer;
     transition: color 0.3s ease;
-  }
+}
 
+/* General body styling */
 body {
     background-color: transparent;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
     height: 100%;
 }
 
+/* Hide scrollbars */
 ::-webkit-scrollbar {
     display: none;
 }
 
+/* Player container styling */
 .player-container {
     -webkit-app-region: drag;
     background-image: var(--player-bg);
@@ -54,12 +61,9 @@ body {
     border-radius: 20px;
     color: var(--text-color);
     transition: background-image 0.3s ease;
-    /* height: 100vh;
-    width: 100vw; */
     position: relative;
-    /* overflow: hidden; */
-  }
-  
+}
+
 /* Header */
 #header {
     -webkit-app-region: drag;
@@ -72,6 +76,7 @@ body {
     justify-content: space-between;
 }
 
+/* Slider styling */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -100,6 +105,7 @@ input:checked + .slider:before {
     transform: translateX(17px); /* Adjusted translate */
 }
 
+/* Light mode slider styling */
 body.light-mode .slider {
     background-color: #f0f0f0;
 }
@@ -112,7 +118,7 @@ body.light-mode .slider:before {
     background-color: #424242;
 }
 
-/* Display Screen */
+/* Display screen styling */
 #display {
     background-color: rgba(0, 0, 0, 0.2);
     color: lime;
@@ -215,6 +221,7 @@ input[type="range"]:hover {
     transition: height 0.1s ease-in-out;
 }
 
+/* Lyrics display styling */
 #lyrics-display {
     -webkit-app-region: no-drag;
     pointer-events: auto;
@@ -239,9 +246,7 @@ input[type="range"]:hover {
     box-sizing: border-box;        /* Padding doesn’t mess up width */
 }
 
-
-
-
+/* Window controls styling */
 .window-controls {
     -webkit-app-region: no-drag;
     display: flex;
@@ -260,37 +265,33 @@ input[type="range"]:hover {
     justify-content: center;
     cursor: pointer;
     transition: background 0.2s ease;
-  }
+}
 
-
-  .window-button .icon {
+.window-button .icon {
     position: absolute;
     font-size: 10px;
     color: rgb(16, 15, 15);
     opacity: 0;
     transition: opacity 0.2s ease;
-  }
-  .window-controls:hover .window-button .icon {
+}
+
+.window-controls:hover .window-button .icon {
     opacity: 1;
-  }
-  
-  .window-button.red {
+}
+
+.window-button.red {
     background-color: #ff5f57;
-  }
-  
-  .window-button.yellow {
+}
+
+.window-button.yellow {
     background-color: #ffbd2e;
-  }
-  
-  .window-button.green {
+}
+
+.window-button.green {
     background-color: #28c840;
-  }
+}
 
-/* #lyrics-display::-webkit-scrollbar { Scrollbar for Lyrics Display 
-    display: initial;
-    width: 5px;
-} */
-
+/* Scrollbar for Lyrics Display */
 #lyrics-display::-webkit-scrollbar-thumb {
     background-color: lime;
     border-radius: 3px;
@@ -517,127 +518,133 @@ input[type="range"]:hover {
 
 #playlist li {
     margin-bottom: 1px;
-}input[type="range"]::-moz-range-thumb {
-  height: 10px; /* Smaller thumb */
-  width: 10px; /* Smaller thumb */
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 10px; /* Smaller thumb */
+    width: 10px; /* Smaller thumb */
 }
 
 /* Style for active/playing playlist item */
 .playlist-item.active,
 .playlist-item:hover {
-  color: lime;
-  text-shadow: 0 0 6px lime;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  padding: 4px;
-  font-size: 0.85rem; /* Slightly smaller */
+    color: lime;
+    text-shadow: 0 0 6px lime;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 4px;
+    font-size: 0.85rem; /* Slightly smaller */
 }
 
 /* Default style for playlist items */
 .playlist-item {
-  color: #ffffff;
-  background: none;
-  border: none;
-  padding: 4px 0;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 0.75rem; /* Smaller font */
-  margin-bottom: 1px;
+    color: #ffffff;
+    background: none;
+    border: none;
+    padding: 4px 0;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 0.75rem; /* Smaller font */
+    margin-bottom: 1px;
 }
 
 .playlist-item:focus {
-  outline: none;
-  box-shadow: 0 0 4px #ffffff;
+    outline: none;
+    box-shadow: 0 0 4px #ffffff;
 }
 
 #playlist ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 #playlist li {
-  margin-bottom: 1px;
+    margin-bottom: 1px;
 }
+
 .control-btn.active {
-  color: lime; /* Change the color to green */
-  transform: scale(1.5); 
+    color: lime; /* Change the color to green */
+    transform: scale(1.5); 
 }
+
 #playlist li {
-  cursor: grab;
-  user-select: none;
-  padding: 8px;
-  transition: background-color 0.2s;
+    cursor: grab;
+    user-select: none;
+    padding: 8px;
+    transition: background-color 0.2s;
 }
 
 #playlist li.dragging {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 #playlist li.dragover {
-  border-top: 2px solid #4af;
+    border-top: 2px solid #4af;
 }
 
+/* Seek controls styling */
 #seek-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 10px;
 }
 
 #seek-controls span {
-  font-size: 0.75rem;
-  color: #fff;
-  font-family: monospace;
-  min-width: 40px;
-  text-align: center;
-  user-select: none;
+    font-size: 0.75rem;
+    color: #fff;
+    font-family: monospace;
+    min-width: 40px;
+    text-align: center;
+    user-select: none;
 }
 
 #seek-bar {
-  flex: 1;
+    flex: 1;
 }
 
+/* Visualizer styling */
 #visualizer {
-  width: 100%;
-  height: 100%;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-/*background-color: #000000; /* Optional: Background color for the visualizer */
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #audio-visualizer {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
+/* Compact player container styling */
 .player-container.compact {
-  -webkit-app-region: drag;
-  width: 100%;
-  height: 70vh;
-  padding: 2;
-  border-radius: 20px;
-  background-color: black;
+    -webkit-app-region: drag;
+    width: 100%;
+    height: 70vh;
+    padding: 2;
+    border-radius: 20px;
+    background-color: black;
 }
+
 .player-container.compact #main-content,
 .player-container.compact #header {
-  -webkit-app-region: drag;
-  display: none;
+    -webkit-app-region: drag;
+    display: none;
 }
 
 .player-container.compact #bottom-bar {
-  background-color: transparent;
-  /* margin-top: auto; */
-  position: absolute;
-  bottom: 0;
-  width: 98%;
-  left: 0;
-  right: 0;
-  padding: 5px;
-  margin-bottom: 10px;
+    background-color: transparent;
+    position: absolute;
+    bottom: 0;
+    width: 98%;
+    left: 0;
+    right: 0;
+    padding: 5px;
+    margin-bottom: 10px;
 }

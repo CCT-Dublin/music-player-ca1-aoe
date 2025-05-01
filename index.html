@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Include metadata and external stylesheets -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alutech Music Player</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://kit.fontawesome.com/27fe0181dd.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
+  <!-- Main player container -->
   <div class="player-container">
     
-    <!-- Window Controls -->
+    <!-- Window controls for close, minimize, and maximize -->
     <div class="window-controls">
       <button class="window-button red" id="buttonred">
         <span class="icon"><i class="fa-solid fa-xmark"></i></span>
@@ -25,7 +26,7 @@
     </div>
     
 
-    <!-- Header -->
+    <!-- Header section with title and theme toggle button -->
     <header id="header">
       <h1 id="winamp-title">
         <span id="song-title"></span>
@@ -33,7 +34,7 @@
       <button id="theme-toggle"><i class="fa-solid fa-toggle-off"></i></button>
     </header>
 
-    <!-- MAIN LAYOUT AREA -->
+    <!-- Main content area with playlist, equalizer, and lyrics -->
     <div id="main-content">
       <!-- Playlist Column -->
       <div id="playlist-panel">
@@ -80,7 +81,7 @@
       </div>
     </div>
 
-    <!-- BOTTOM CONTROLS AREA -->
+    <!-- Bottom controls area for playback, seek bar, and volume -->
     <div id="bottom-bar">
      <!-- Seek Bar -->
       <section id="seek-controls">
@@ -117,6 +118,7 @@
     </div>
   </div>
 
+  <!-- Audio element for playback -->
   <audio id="audio"></audio>
   <script src="script.js"></script>
 </body>

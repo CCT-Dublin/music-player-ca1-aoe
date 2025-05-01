@@ -1,3 +1,4 @@
+// Get references to DOM elements
 const audio = document.getElementById("audio");
 const playButton = document.getElementById("play");
 const pauseButton = document.getElementById("pause");
@@ -15,25 +16,30 @@ const volumeIcon = document.querySelector('.volume-icon');
 const shuffleBtn = document.getElementById("shuffle");
 const repeatBtn = document.getElementById("repeat");
 const lyricsDisplay = document.getElementById("lyrics");
+
+// Initialize state variables
 let isMuted = false;
 let previousVolume = 0.5;
 let isShuffle = false;
 let isRepeat = false;
 
+// Shuffle button toggle functionality
 shuffleBtn.addEventListener("click", () => {
     isShuffle = !isShuffle;
     shuffleBtn.classList.toggle("active", isShuffle);
 });
 
+// Repeat button toggle functionality
 repeatBtn.addEventListener("click", () => {
     isRepeat = !isRepeat;
     repeatBtn.classList.toggle("active", isRepeat);
 });
 
+// Set up Web Audio API for equalizer and visualizer
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const source = audioContext.createMediaElementSource(audio);
 
-// EQ
+// Equalizer filters
 const bassEQ = audioContext.createBiquadFilter();
 bassEQ.type = "lowshelf";
 bassEQ.frequency.value = 200;
@@ -47,13 +53,13 @@ const trebleEQ = audioContext.createBiquadFilter();
 trebleEQ.type = "highshelf";
 trebleEQ.frequency.value = 3000;
 
-// Analyzer
+// Analyzer for visualizer
 const analyser = audioContext.createAnalyser();
 analyser.fftSize = 32;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
-// Connections
+// Connect audio nodes
 source
     .connect(bassEQ)
     .connect(midEQ)
@@ -61,15 +67,17 @@ source
     .connect(analyser)
     .connect(audioContext.destination);
 
+// Initialize playlist and current song index
 let songs = [];
 let currentSongIndex = 0;
 let currentTrackElement = null;
 let isPlaying = false;
 
-// Timer actualizado para current-time y total-duration
+// Timer updated for current-time and total-duration
 const currentTimeEl = document.getElementById("current-time");
 const totalDurationEl = document.getElementById("total-duration");
 
+// Format time for display
 function formatTime(seconds) {
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
@@ -120,7 +128,7 @@ function stopEqualizer() {
     });
 }
 
-// Song controls
+// Load and play a song
 function loadSong(index = currentSongIndex) {
     if (!songs.length) return;
     currentSongIndex = index;
@@ -128,11 +136,11 @@ function loadSong(index = currentSongIndex) {
     const songName = songs[currentSongIndex].replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
     songTitle.textContent = songName;
 
-        // Send alert to Electron main process
-        if (window.musicAPI.notifySong) {
-            window.musicAPI.notifySong(songName);
-        }
-        
+    // Send alert to Electron main process
+    if (window.musicAPI.notifySong) {
+        window.musicAPI.notifySong(songName);
+    }
+
     loadLyricsForSong(songName);
     updateActiveTrack();
 }
@@ -201,7 +209,7 @@ audio.addEventListener("ended", () => {
     }
 });
 
-// Seek & volume
+// Seek bar and volume controls
 seekBar.addEventListener("input", () => {
     audio.currentTime = seekBar.value;
 });
@@ -212,10 +220,12 @@ volumeBar.addEventListener("input", () => {
     updateVolumeIcon(audio.volume);
 });
 
+// Theme toggle functionality
 themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("light-mode");
 });
 
+// Update active track in the playlist
 function updateActiveTrack() {
     const playlistItems = document.querySelectorAll('.playlist-item');
     playlistItems.forEach((item, index) => {
@@ -227,7 +237,7 @@ function updateActiveTrack() {
     });
 }
 
-// Playlist loading
+// Load playlist from the main process
 window.musicAPI.getSongs().then(fileList => {
     if (audio && !audio.paused) {
         audio.pause();
@@ -256,6 +266,7 @@ window.musicAPI.getSongs().then(fileList => {
     loadSong();
 });
 
+// Drag-and-drop functionality for playlist
 function addDragAndDropListeners() {
     let draggedItemIndex;
 
@@ -320,7 +331,7 @@ function updatePlaylistEventListeners() {
     });
 }
 
-// Buttons
+// Playback control buttons
 playButton.addEventListener("click", () => {
     if (audio.paused) {
         playSong();
@@ -351,7 +362,7 @@ nextButton.addEventListener("click", () => {
     isPlaying = true;
 });
 
-// Lyrics
+// Load lyrics for the current song
 async function loadLyricsForSong(songName) {
     const [artist, title] = songName.replace('.mp3', '').split(' - ').map(part => part.trim());
 
@@ -370,7 +381,7 @@ async function loadLyricsForSong(songName) {
     }
 }
 
-// Add songs
+// Add songs to the playlist
 addFolderButton.addEventListener("click", async () => {
     const newSongs = await window.musicAPI.selectFolder();
 
@@ -407,8 +418,7 @@ addFolderButton.addEventListener("click", async () => {
     // alert(`${newSongs.length} songs added to the playlist.`);
 });
 
-
-// Window buttons
+// Window control buttons
 document.getElementById('buttonred').addEventListener('click', () => {
     window.musicAPI.controlWindow('close');
 });
@@ -420,12 +430,12 @@ document.getElementById('buttongreen').addEventListener('click', () => {
 });
 document.getElementById('buttongreen').addEventListener('click', () => {
     window.musicAPI.controlWindow('shrink');
-});/// ======= here =======
+});
 document.getElementById("buttongreen").addEventListener("click", () => {
     document.querySelector(".player-container").classList.toggle("compact");
 });
 
-// EQ sliders
+// Equalizer slider controls
 document.getElementById("bass").addEventListener("input", (e) => {
     bassEQ.gain.value = e.target.value;
 });
@@ -436,7 +446,7 @@ document.getElementById("treble").addEventListener("input", (e) => {
     trebleEQ.gain.value = e.target.value;
 });
 
-// Media control
+// Media control from the main process
 window.musicAPI.onMediaControl((action) => {
     switch (action) {
         case 'previous':
@@ -463,7 +473,7 @@ window.musicAPI.onMediaControl((action) => {
     }
 });
 
-// Volume icon mute
+// Volume icon mute functionality
 volumeIcon.addEventListener('click', () => {
     isMuted = !isMuted;
 
@@ -493,7 +503,7 @@ function updateVolumeIcon(volume) {
 
 updateVolumeIcon(audio.volume);
 
-// Audio Visualizer Script
+// Audio visualizer setup
 const canvas = document.getElementById('audio-visualizer');
 const canvasCtx = canvas.getContext('2d');
 
@@ -513,67 +523,67 @@ const visualizerDataArray = new Uint8Array(visualizerBufferLength);
 
 // Draw visualizer
 function drawVisualizer() {
-  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-  visualizerAnalyser.getByteFrequencyData(visualizerDataArray);
+    visualizerAnalyser.getByteFrequencyData(visualizerDataArray);
 
-  const barWidth = (canvas.width / visualizerBufferLength) * 2.5;
-  let barHeight;
-  let x = 0;
+    const barWidth = (canvas.width / visualizerBufferLength) * 2.5;
+    let barHeight;
+    let x = 0;
 
-  for (let i = 0; i < visualizerBufferLength; i++) {
-    barHeight = visualizerDataArray[i];
+    for (let i = 0; i < visualizerBufferLength; i++) {
+        barHeight = visualizerDataArray[i];
 
-    const red = (barHeight + 100) % 255;
-    const green = (i * 5) % 255;
-    const blue = 200;
+        const red = (barHeight + 100) % 255;
+        const green = (i * 5) % 255;
+        const blue = 200;
 
-    canvasCtx.fillStyle = `rgb(${red},${green},${blue})`;
+        canvasCtx.fillStyle = `rgb(${red},${green},${blue})`;
 
-    // Draw bars extending both up and down from the middle
-    const centerY = canvas.height / 2;
-    canvasCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half
-    canvasCtx.fillRect(x, centerY, barWidth, barHeight / 2); // Bottom half
+        // Draw bars extending both up and down from the middle
+        const centerY = canvas.height / 2;
+        canvasCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half
+        canvasCtx.fillRect(x, centerY, barWidth, barHeight / 2); // Bottom half
 
-    // Mirror the bars horizontally
-    const mirroredX = canvas.width - x - barWidth;
-    canvasCtx.fillRect(mirroredX, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half mirrored
-    canvasCtx.fillRect(mirroredX, centerY, barWidth, barHeight / 2); // Bottom half mirrored
+        // Mirror the bars horizontally
+        const mirroredX = canvas.width - x - barWidth;
+        canvasCtx.fillRect(mirroredX, centerY - barHeight / 2, barWidth, barHeight / 2); // Top half mirrored
+        canvasCtx.fillRect(mirroredX, centerY, barWidth, barHeight / 2); // Bottom half mirrored
 
-    x += barWidth + 1;
-  }
+        x += barWidth + 1;
+    }
 
-  requestAnimationFrame(drawVisualizer);
+    requestAnimationFrame(drawVisualizer);
 }
 
 // Start visualizer when audio plays
 audio.addEventListener('play', () => {
-  if (audioContext.state === 'suspended') {
-    audioContext.resume();
-  }
-  drawVisualizer();
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
+    drawVisualizer();
 });
 
+// Theme persistence using localStorage
 const icon = themeToggle.querySelector('i');
-
-// Load saved theme
 if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark');
-  icon.classList.remove('fa-toggle-off');
-  icon.classList.add('fa-toggle-on');
+    document.body.classList.add('dark');
+    icon.classList.remove('fa-toggle-off');
+    icon.classList.add('fa-toggle-on');
 }
 
 themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
 
-  // Update icon
-  icon.classList.toggle('fa-toggle-on', isDark);
-  icon.classList.toggle('fa-toggle-off', !isDark);
+    // Update icon
+    icon.classList.toggle('fa-toggle-on', isDark);
+    icon.classList.toggle('fa-toggle-off', !isDark);
 
-  // Save preference
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    // Save preference
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
+
 // Update song title and show notification  
 const songPath = songs[currentSongIndex] || '';
 const songName = songPath.replace(/\\/g, '/').split('/').pop().replace(/\.[^/.]+$/, '');
@@ -582,5 +592,5 @@ songTitle.textContent = songName;
 
 // Show system notification
 if (window.notifier && window.notifier.showSongNotification) {
-  window.notifier.showSongNotification("Now Playing", songName);
+    window.notifier.showSongNotification("Now Playing", songName);
 }

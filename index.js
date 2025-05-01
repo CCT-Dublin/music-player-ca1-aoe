@@ -1,9 +1,12 @@
+// Import necessary Electron modules and Node.js modules
 const { app, BrowserWindow, ipcMain, dialog, nativeImage, Notification } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
+// Declare a variable to hold the main application window
 let win;
 
+// Function to create the main application window
 const createWindow = () => {
   win = new BrowserWindow({
     width: 950,
@@ -19,11 +22,10 @@ const createWindow = () => {
     }
   });
 
+  // Load the main HTML file into the window
   win.loadFile('index.html');
 
-  // win.webContents.openDevTools(); // for dev tools
-
-  // --- Add media control buttons to Windows taskbar ---
+  // Add media control buttons to the Windows taskbar
   win.setThumbarButtons([
     {
       tooltip: 'Previous',
@@ -50,7 +52,7 @@ ipcMain.handle('get-songs', async () => {
   return files.filter(file => file.match(/\.(mp3|wav|ogg)$/i));
 });
 
-// Allow folder selection
+// Allow folder selection by the user
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog(win, {
     properties: ['openFile', 'multiSelections'], // Allow selecting files and multiple selections
@@ -66,7 +68,7 @@ ipcMain.handle('select-folder', async () => {
   return result.filePaths; // Return the selected file paths
 });
 
-// Listen for track change event and send notification
+// Listen for track change events and send notifications
 ipcMain.on('track-changed', (event, trackInfo) => {
   // Create and show the notification
   const notification = new Notification({
@@ -78,6 +80,7 @@ ipcMain.on('track-changed', (event, trackInfo) => {
   notification.show();
 });
 
+// Update playback state and taskbar buttons
 ipcMain.on('playback-state-changed', (event, isPlaying) => {
   win.setThumbarButtons([
     {
@@ -98,10 +101,11 @@ ipcMain.on('playback-state-changed', (event, isPlaying) => {
   ]);
 });
 
+// Initialize the application when ready
 app.whenReady().then(() => {
   createWindow();
 
-  // Listen for app events (e.g., focus on the app window)
+  // Recreate the window if all windows are closed
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -109,10 +113,9 @@ app.whenReady().then(() => {
   });
 });
 
-// Minicontrol minimized windows
-
-let isCustomMaximized = false; // track state
-let originalBounds; // store original window bounds
+// Handle custom window controls (minimize, maximize, close)
+let isCustomMaximized = false; // Track custom maximize state
+let originalBounds; // Store original window bounds
 
 ipcMain.on('window-control', (event, action) => {
   if (!win) return;
@@ -140,12 +143,14 @@ ipcMain.on('window-control', (event, action) => {
   }
 });
 
+// Quit the application when all windows are closed (except on macOS)
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
+// Notify the user of the currently playing song
 ipcMain.on("notify-song", (event, title) => {
   new Notification({
     title: "Now Playing",
