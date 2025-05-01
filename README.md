@@ -79,6 +79,8 @@ The window controls are located at the top-left of the application window.
 
 * **Close:** The red button :red_circle: exits the application.
   
+* **Mini Player:** The green button :green_circle: activate the mini player option.
+  
 ## 6. Light/Dark Mode
 
 The music player offers a theme toggle for light and dark modes, allowing users to choose a display style that suits their environment or preference.
